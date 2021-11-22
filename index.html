@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        .topnav {
+            overflow: hidden;
+            background-color: #333;
+            position: relative;
+        }
+
+        /* Hide the links inside the navigation menu (except for logo/home) */
+        .topnav #myLinks {
+            display: none;
+        }
+
+        /* Style navigation menu links */
+        .topnav a {
+            color: white;
+            padding: 14px 16px;
+            text-decoration: none;
+            font-size: 17px;
+            display: block;
+        }
+
+        /* Style the hamburger menu */
+        .topnav a.icon {
+            background: black;
+            display: block;
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+
+        /* Add a grey background color on mouse-over */
+
+
+        /* Style the active link (or home/logo) */
+        .active {
+            background-color: #6495ed;
+            color: black;
+        }
+    </style>
+    <script src="index.js" type="module"></script>
+</head>
+<body>
+
+<!-- Top Navigation Menu -->
+<div class="topnav" id="topnav">
+    <a href="/" class="active" data-navigo>HOME</a>
+    <!-- Navigation links (hidden by default) -->
+    <div id="myLinks">
+        <a href="/tours" data-navigo>Tours</a>
+        <a href="/contact">Contact</a>
+        <a href="/about">About</a>
+    </div>
+    <!-- "Hamburger menu" / "Bar icon" to toggle the navigation links -->
+    <a href="javascript:void(0);" class="icon" onclick="toggleMenu()">
+        <i class="fa fa-bars"></i>
+    </a>
+</div>
+<hr>
+
+
+<div id="content"></div>
+
+<script>
+    function toggleMenu() {
+        let x = document.getElementById("myLinks");
+        if (x.style.display === "block") {
+            x.style.display = "none";
+        } else {
+            x.style.display = "block";
+        }
+    }
+</script>
+</body>
+</html>
