@@ -25,6 +25,7 @@ window.addEventListener("load", async () => {
             console.log("x POS: " + evt.pageX + ", y: POS: " + evt.pageY)
 
 
+
             //handle map click.
             map.onclick = async (evt) => {
                 // load marker
@@ -33,14 +34,13 @@ window.addEventListener("load", async () => {
                 const marker = document.getElementById('marker');
 
                 // remove marker
-                marker.onclick = async (evt) => {
+                marker.onclick = async () => {
                     marker.style.display = "none";
                 }
 
 
                 // display marker on mouse position
                 marker.style.display = "inline";
-
                 marker.style.position = "absolute";
                 marker.style.left = evt.pageX.toString() + "px";
                 marker.style.top = evt.pageY.toString() + "px";
@@ -49,7 +49,6 @@ window.addEventListener("load", async () => {
 
         }
     }
-
 
 
     const templateHome = await loadTemplate("./home.html");
