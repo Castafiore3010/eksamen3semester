@@ -2,24 +2,15 @@ import "https://unpkg.com/navigo"  //Will create the global Navigo object used b
 
 import {
     renderText, adjustForMissingHash, loadTemplate, renderTemplate,
-} from "./utils.js"
-import {setActiveLink} from "./utils.js";
+} from "../utils.js"
+import {setActiveLink} from "../utils.js";
 
 
 window.addEventListener("load", async () => {
-
-
-
-
-
-
     function handlers() {
         handleMap();
     }
     handlers();
-
-
-
 
     function handleMap() {
 
@@ -29,12 +20,10 @@ window.addEventListener("load", async () => {
             console.log(map.id);
             console.log("x POS: " + evt.pageX + ", y: POS: " + evt.pageY)
 
-
-
             //handle map click.
             map.onclick = async (evt) => {
                 // load marker
-                const markerTemplate = await loadTemplate("./markerTemplate.html")
+                const markerTemplate = await loadTemplate("templates/markerTemplate.html")
                 renderTemplate(markerTemplate, "marker")
                 const marker = document.getElementById('marker');
 
@@ -43,30 +32,28 @@ window.addEventListener("load", async () => {
                     marker.style.display = "none";
                 }
 
-
                 // display marker on mouse position
                 marker.style.display = "inline";
                 marker.style.position = "absolute";
                 marker.style.left = evt.pageX.toString() + "px";
                 marker.style.top = evt.pageY.toString() + "px";
             }
-
-
         }
     }
 
 
-    const templateHome = await loadTemplate("./home.html");
-    const templateTours = await loadTemplate("./tours.html");
-
+    const templateHome = await loadTemplate("templates/home.html");
+    const templateTours = await loadTemplate("templates/tours.html");
 
     const router = new Navigo("/", {hash : true});
 
     adjustForMissingHash();
     router
         .hooks({
-
-
+            before(done, match) {
+                setActiveLink("topnav", match.url)
+                done()
+            }
         })
         .on({
             "/": () => {

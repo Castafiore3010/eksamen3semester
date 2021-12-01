@@ -124,7 +124,7 @@
 
 
 
-           const frogMarkerTemplate = await loadTemplate("./frogMarker.html");
+           const frogMarkerTemplate = await loadTemplate("templates/frogMarker.html");
            let frogMarkerDiv = document.createElement('div')
             frogMarkerDiv.id = "frogMarkerDiv";
            document.body.appendChild(frogMarkerDiv);
@@ -144,7 +144,7 @@
 
         } else {
             for (const frogLoc of frogLocations) {
-                const frogMarkerTemplate = await loadTemplate("./frogMarker.html");
+                const frogMarkerTemplate = await loadTemplate("templates/frogMarker.html");
                 let div = document.createElement('div');
                 div.id = frogLoc.id;
                 document.body.appendChild(div);
@@ -152,8 +152,8 @@
                 const marker = document.getElementById(div.id);
                 marker.style.display = "inline";
                 marker.style.position = "absolute";
-                marker.style.left = frogLoc.leftPos;
-                marker.style.top = frogLoc.topPos;
+                marker.style.left = frogLoc.leftPos+"px";
+                marker.style.top = frogLoc.topPos+"px";
 
 
 
