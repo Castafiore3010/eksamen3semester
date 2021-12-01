@@ -27,6 +27,10 @@ public class DataSetup implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+
+        //HEJ MARC, VI SLETTER DET HER OG LAVER SQL STATEMENTS ISTEDET, FOR JPA ER SKRALD OG VI GIDER IKKE FINDE UD AF
+        // HVORDAN DET FUNGERER :) HILSEN DEN BEDRE TUTOR
+
         List<MediaLink> listOfMediaLinks = new ArrayList<MediaLink>();
         List<Tour> listOfTour = new ArrayList<Tour>();
         List<Pin> listOfPins = new ArrayList<Pin>();
