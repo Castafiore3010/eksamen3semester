@@ -42,6 +42,33 @@
             background-color: #6495ed;
             color: black;
         }
+
+
+
+
+        #mapTest .rTopnav {
+            position: absolute;
+            top: 12%;
+            left: 56%;
+        }
+        .checkBoxPanel {
+            position: absolute;
+            top: 12%;
+            left: 58%;
+            border: 1px solid crimson;
+            display: none;
+
+        }
+        .checkBoxPanel > label {
+            font-family: Ebrima,sans-serif;
+        }
+        .checkBoxPanel > input {
+            width: 24px;
+            height: 24px;
+            margin: 8px 8px 0 8px;
+        }
+
+
     </style>
     <script src="index.js" type="module"></script>
 </head>
@@ -53,23 +80,92 @@
     <!-- Navigation links (hidden by default) -->
     <div id="myLinks">
         <a href="/tours" data-navigo>Tours</a>
+        <a href="/map" data-navigo>Map</a>
         <a href="/contact">Contact</a>
         <a href="/about">About</a>
     </div>
     <!-- "Hamburger menu" / "Bar icon" to toggle the navigation links -->
-    <a href="javascript:void(0);" class="icon" onclick="toggleMenu()">
+    <a href="javascript:void(0);" class="icon" onclick="toggleMenu('myLinks')">
         <i class="fa fa-bars"></i>
     </a>
 </div>
 <hr>
 
+
+
 <div id="marker"></div>
 <div id="content"></div>
 
 <script>
+    async function loadTemplate(page) {
+        const resHtml = await fetch(page).then(r => {
+            if (!r.ok) {
+                throw new Error(`Failed to load the page: '${page}' `)
+            }
+            return r.text()
+        });
+        const body = document.getElementsByTagName("BODY")[0];
+        const div = document.createElement("div");
+        div.innerHTML = resHtml;
+        body.appendChild(div)
+        return div.querySelector("template")
+    };
 
-    function toggleMenu() {
-        let x = document.getElementById("myLinks");
+    function renderTemplate(template, contentId) {
+        const clone = template.content.cloneNode(true)
+        const content = document.getElementById(contentId)
+        content.innerHTML = ""
+        content.appendChild(clone)
+    }
+    let counterHelp = 0;
+   async function toggleFrogs(frogLocations) {
+
+        if (!frogLocations) {
+
+
+
+           const frogMarkerTemplate = await loadTemplate("./frogMarker.html");
+           let frogMarkerDiv = document.createElement('div')
+            frogMarkerDiv.id = "frogMarkerDiv";
+           document.body.appendChild(frogMarkerDiv);
+           renderTemplate(frogMarkerTemplate, frogMarkerDiv.id);
+           const frogMarker = document.getElementById('frogMarkerDiv');
+           console.log(frogMarker.id);
+           frogMarker.style.display = "inline";
+           frogMarker.style.position = "absolute";
+           frogMarker.style.left = "400px";
+           frogMarker.style.top = "200px";
+
+           if (counterHelp % 2 !== 0) {
+               frogMarker.style.display = "none";
+           }
+           counterHelp++;
+
+
+        } else {
+            for (const frogLoc of frogLocations) {
+                const frogMarkerTemplate = await loadTemplate("./frogMarker.html");
+                let div = document.createElement('div');
+                div.id = frogLoc.id;
+                document.body.appendChild(div);
+                renderTemplate(frogMarkerTemplate, div.id);
+                const marker = document.getElementById(div.id);
+                marker.style.display = "inline";
+                marker.style.position = "absolute";
+                marker.style.left = frogLoc.leftPos;
+                marker.style.top = frogLoc.topPos;
+
+
+
+
+            }
+        }
+
+
+    }
+
+    function toggleMenu(id) {
+        let x = document.getElementById(id);
         if (x.style.display === "block") {
             x.style.display = "none";
         } else {

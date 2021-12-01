@@ -74,8 +74,11 @@ window.addEventListener("load", async () => {
                 console.log("router working");
             },
             "/tours" : () => {
-                toggleMenu();
+
                 renderTemplate(templateTours, "content");
+            },
+            "/map" : () => {
+                renderTemplate(templateHome, "content");
             }
 
         })

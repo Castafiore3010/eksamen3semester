@@ -19,7 +19,6 @@ function distanceBetween(lat1, lng1, lat2, lng2) {
 
 
     // Great circle distance in radians, using law of cosines
-
     let angle = Math.acos(Math.sin(lat1Rad) * Math.sin(lat2Rad) + Math.cos(lat1Rad) * Math.cos(lat2Rad)
         * Math.cos(lng1Rad - lng2Rad));
 
