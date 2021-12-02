@@ -32,23 +32,34 @@ public class DataSetup implements CommandLineRunner {
         List<Pin> listOfPins = new ArrayList<Pin>();
 
         //Pins
-        Pin testPin = new Pin(3L,300,20,10,50,"lalala");
+        Pin testPin = new Pin(null,300,20,10,50,"lalala");
         listOfPins.add(testPin);
 
         //Tour
-        Tour testTour = new Tour(1L,"lalalfdsf");
+        Tour testTour = new Tour(null,"lalalfdsf");
         listOfTour.add(testTour);
 
-
         //MediaLink
-        MediaLink testML = new MediaLink(5L,"www.smileyface.dk", MediaType.VIDEO);
+        MediaLink testML = new MediaLink(null,"www.smileyface.dk", MediaType.VIDEO);
         listOfMediaLinks.add(testML);
+
+
+
+        //merge :)
+        //testPin.setTours(listOfTour);
+        //testPin.setMediaLinks(listOfMediaLinks);
+
+        testTour.setPins(listOfPins);
+        testTour.setMediaLinks(listOfMediaLinks);
+
+        testML.setTours(listOfTour);
+        testML.setPins(listOfPins);
 
         //testTour.setMediaLinks(listOfMediaLinks);
 
         pinRepository.save(testPin);
-        tourRepository.save(testTour);
-        mediaLinkRepository.save(testML);
+        //tourRepository.save(testTour);
+        //mediaLinkRepository.save(testML);
 
     }
 

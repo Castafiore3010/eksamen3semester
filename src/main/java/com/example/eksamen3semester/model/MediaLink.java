@@ -17,10 +17,10 @@ public class MediaLink {
     @Column(name = "media_type")
     private MediaType type;
 
-    @ManyToMany(mappedBy = "mediaLinks")
+    @ManyToMany(mappedBy = "mediaLinks", cascade = CascadeType.PERSIST)
     private List<Pin> pins;
 
-    @ManyToMany(mappedBy = "mediaLinks")
+    @ManyToMany(mappedBy = "mediaLinks", cascade = CascadeType.PERSIST)
     private List<Tour> tours;
 
     public MediaLink(){}

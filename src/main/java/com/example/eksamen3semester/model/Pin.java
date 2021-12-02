@@ -24,7 +24,7 @@ public class Pin {
     @ManyToMany(mappedBy = "pins")
     private List<Tour> tours;
 
-    @ManyToMany()
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(name = "pin_media_links", joinColumns = @JoinColumn(name = "media_link_id"), inverseJoinColumns = @JoinColumn(name = "pin_id"))
     private List<MediaLink> mediaLinks;
 
