@@ -1,5 +1,7 @@
 package com.example.eksamen3semester.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -18,9 +20,11 @@ public class MediaLink {
     private MediaType type;
 
     @ManyToMany(mappedBy = "mediaLinks", cascade = CascadeType.PERSIST)
+    @JsonBackReference
     private List<Pin> pins;
 
     @ManyToMany(mappedBy = "mediaLinks", cascade = CascadeType.PERSIST)
+    @JsonBackReference
     private List<Tour> tours;
 
     public MediaLink(){}

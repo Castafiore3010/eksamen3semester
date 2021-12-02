@@ -1,5 +1,8 @@
 package com.example.eksamen3semester.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -13,13 +16,15 @@ public class Tour {
 
     private String description;
 
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinTable(name = "tour_pins", joinColumns = @JoinColumn(name = "pin_id"), inverseJoinColumns = @JoinColumn(name = "tour_id"))
+    @JsonBackReference
     private List<Pin> pins;
 
     @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(name = "tour_media_links", joinColumns = @JoinColumn(name = "media_link_id"), inverseJoinColumns = @JoinColumn(name = "tour_id"))
     @Column(nullable = true)
+    @JsonBackReference
     private List<MediaLink> mediaLinks;
 
 

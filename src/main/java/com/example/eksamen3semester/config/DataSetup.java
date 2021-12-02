@@ -39,6 +39,8 @@ public class DataSetup implements CommandLineRunner {
         Tour testTour = new Tour(null,"lalalfdsf");
         listOfTour.add(testTour);
 
+        Tour soloTour = new Tour(null, "SMiletur");
+
         //MediaLink
         MediaLink testML = new MediaLink(null,"www.smileyface.dk", MediaType.VIDEO);
         listOfMediaLinks.add(testML);
@@ -46,8 +48,8 @@ public class DataSetup implements CommandLineRunner {
 
 
         //merge :)
-        //testPin.setTours(listOfTour);
-        //testPin.setMediaLinks(listOfMediaLinks);
+        testPin.setTours(listOfTour);
+        testPin.setMediaLinks(listOfMediaLinks);
 
         testTour.setPins(listOfPins);
         testTour.setMediaLinks(listOfMediaLinks);
@@ -58,6 +60,7 @@ public class DataSetup implements CommandLineRunner {
         //testTour.setMediaLinks(listOfMediaLinks);
 
         pinRepository.save(testPin);
+        tourRepository.save(soloTour);
         //tourRepository.save(testTour);
         //mediaLinkRepository.save(testML);
 
