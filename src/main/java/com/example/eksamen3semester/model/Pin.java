@@ -7,7 +7,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "pins")
-
 public class Pin {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

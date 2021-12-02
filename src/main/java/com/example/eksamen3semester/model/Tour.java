@@ -7,7 +7,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "tours")
-
 public class Tour {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,7 +15,7 @@ public class Tour {
 
     private String description;
 
-    @ManyToMany(mappedBy = "tours",cascade = CascadeType.PERSIST)
+    @ManyToMany(mappedBy = "tours", cascade = CascadeType.PERSIST)
     @JsonIgnore
     private List<Pin> pins;
 

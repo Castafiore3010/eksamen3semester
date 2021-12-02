@@ -7,7 +7,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "media_links")
-
 public class MediaLink {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
