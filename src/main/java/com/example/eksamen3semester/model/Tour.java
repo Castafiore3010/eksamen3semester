@@ -1,13 +1,13 @@
 package com.example.eksamen3semester.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "tours")
+
 public class Tour {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,15 +16,13 @@ public class Tour {
 
     private String description;
 
-    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    @JoinTable(name = "tour_pins", joinColumns = @JoinColumn(name = "pin_id"), inverseJoinColumns = @JoinColumn(name = "tour_id"))
-    @JsonBackReference
+    @ManyToMany(mappedBy = "tours",cascade = CascadeType.PERSIST)
+    @JsonIgnore
     private List<Pin> pins;
 
     @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(name = "tour_media_links", joinColumns = @JoinColumn(name = "media_link_id"), inverseJoinColumns = @JoinColumn(name = "tour_id"))
-    @Column(nullable = true)
-    @JsonBackReference
+    @JsonIgnore
     private List<MediaLink> mediaLinks;
 
 

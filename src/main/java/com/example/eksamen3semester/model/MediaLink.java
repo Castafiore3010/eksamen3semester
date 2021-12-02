@@ -1,12 +1,13 @@
 package com.example.eksamen3semester.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.*;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "media_links")
+
 public class MediaLink {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,11 +21,11 @@ public class MediaLink {
     private MediaType type;
 
     @ManyToMany(mappedBy = "mediaLinks", cascade = CascadeType.PERSIST)
-    @JsonBackReference
+    @JsonIgnore
     private List<Pin> pins;
 
     @ManyToMany(mappedBy = "mediaLinks", cascade = CascadeType.PERSIST)
-    @JsonBackReference
+    @JsonIgnore
     private List<Tour> tours;
 
     public MediaLink(){}
