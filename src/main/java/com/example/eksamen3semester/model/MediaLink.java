@@ -3,6 +3,8 @@ package com.example.eksamen3semester.model;
 import javax.persistence.*;
 import java.util.List;
 
+
+
 @Entity
 @Table(name = "media_links")
 public class MediaLink {
@@ -17,11 +19,11 @@ public class MediaLink {
     @Column(name = "media_type")
     private MediaType type;
 
-    @ManyToMany(mappedBy = "mediaLinks")
-    private List<Pin> pins;
+    @OneToMany(mappedBy = "mediaLink")
+    private List<PinMedia> pins;
 
-    @ManyToMany(mappedBy = "mediaLinks")
-    private List<Tour> tours;
+    @OneToMany(mappedBy = "mediaLink")
+    private List<TourMedia> tours;
 
     public MediaLink(){}
 
@@ -31,7 +33,7 @@ public class MediaLink {
         this.type = type;
     }
 
-    public MediaLink(Long mediaLinkId, String mediaLink, MediaType type, List<Pin> pins, List<Tour> tours) {
+    public MediaLink(Long mediaLinkId, String mediaLink, MediaType type, List<PinMedia> pins, List<TourMedia> tours) {
         this.mediaLinkId = mediaLinkId;
         this.mediaLink = mediaLink;
         this.type = type;
@@ -63,19 +65,19 @@ public class MediaLink {
         this.type = type;
     }
 
-    public List<Pin> getPins() {
+    public List<PinMedia> getPins() {
         return pins;
     }
 
-    public void setPins(List<Pin> pins) {
+    public void setPins(List<PinMedia> pins) {
         this.pins = pins;
     }
 
-    public List<Tour> getTours() {
+    public List<TourMedia> getTours() {
         return tours;
     }
 
-    public void setTours(List<Tour> tours) {
+    public void setTours(List<TourMedia> tours) {
         this.tours = tours;
     }
 }

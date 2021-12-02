@@ -21,12 +21,12 @@ public class Pin {
     private double longitude;
     private String description;
 
-    @ManyToMany(mappedBy = "pins")
-    private List<Tour> tours;
+    @OneToMany(mappedBy = "pin")
+    private List<PinTour> tours;
 
-    @ManyToMany()
-    @JoinTable(name = "pin_media_links", joinColumns = @JoinColumn(name = "media_link_id"), inverseJoinColumns = @JoinColumn(name = "pin_id"))
-    private List<MediaLink> mediaLinks;
+
+    @OneToMany(mappedBy = "pin")
+    private List<PinMedia> mediaLinks;
 
 
     public Pin (){}
@@ -40,7 +40,7 @@ public class Pin {
         this.description = description;
     }
 
-    public Pin(Long pinId, int posX, int posY, double latitude, double longitude, String description, List<Tour> tours, List<MediaLink> mediaLinks) {
+    public Pin(Long pinId, int posX, int posY, double latitude, double longitude, String description, List<PinTour> tours, List<PinMedia> mediaLinks) {
         this.pinId = pinId;
         this.posX = posX;
         this.posY = posY;
@@ -99,19 +99,19 @@ public class Pin {
         this.description = description;
     }
 
-    public List<Tour> getTours() {
+    public List<PinTour> getTours() {
         return tours;
     }
 
-    public void setTours(List<Tour> tours) {
+    public void setTours(List<PinTour> tours) {
         this.tours = tours;
     }
 
-    public List<MediaLink> getMediaLinks() {
+    public List<PinMedia> getMediaLinks() {
         return mediaLinks;
     }
 
-    public void setMediaLinks(List<MediaLink> mediaLinks) {
+    public void setMediaLinks(List<PinMedia> mediaLinks) {
         this.mediaLinks = mediaLinks;
     }
 }
