@@ -13,12 +13,14 @@ public class Tour {
 
     private String description;
 
-    @OneToMany(mappedBy = "tour")
-    private List<PinTour> pins;
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    @JoinTable(name = "tour_pins", joinColumns = @JoinColumn(name = "pin_id"), inverseJoinColumns = @JoinColumn(name = "tour_id"))
+    private List<Pin> pins;
 
-
-    @OneToMany(mappedBy = "tour")
-    private List<TourMedia> mediaLinks;
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    @JoinTable(name = "tour_media_links", joinColumns = @JoinColumn(name = "media_link_id"), inverseJoinColumns = @JoinColumn(name = "tour_id"))
+    @Column(nullable = true)
+    private List<MediaLink> mediaLinks;
 
 
     public Tour() {
@@ -29,11 +31,11 @@ public class Tour {
         this.description = description;
     }
 
-    public Tour(Long tourId, String description, List<PinTour> pins, List<MediaLink> mediaLinks) {
+    public Tour(Long tourId, String description, List<Pin> pins, List<MediaLink> mediaLinks) {
         this.tourId = tourId;
         this.description = description;
         this.pins = pins;
-        //this.mediaLinks = mediaLinks;
+        this.mediaLinks = mediaLinks;
     }
 
     public Long getTourId() {
@@ -52,19 +54,19 @@ public class Tour {
         this.description = description;
     }
 
-    public List<PinTour> getPins() {
+    public List<Pin> getPins() {
         return pins;
     }
 
-    public void setPins(List<PinTour> pins) {
+    public void setPins(List<Pin> pins) {
         this.pins = pins;
     }
 
-    //public List<MediaLink> getMediaLinks() {
-        //return mediaLinks;
-    //}
+    public List<MediaLink> getMediaLinks() {
+        return mediaLinks;
+    }
 
     public void setMediaLinks(List<MediaLink> mediaLinks) {
-        //this.mediaLinks = mediaLinks;
+        this.mediaLinks = mediaLinks;
     }
 }
