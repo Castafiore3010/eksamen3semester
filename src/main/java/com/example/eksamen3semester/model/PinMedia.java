@@ -19,6 +19,8 @@ public class PinMedia {
     @JoinColumn(name ="media_link_id")
     MediaLink mediaLink;
 
+
+
     public PinMedia() {}
 
     public PinMedia(PinMediaKey id, Pin pin, MediaLink mediaLink) {

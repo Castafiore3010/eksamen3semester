@@ -39,19 +39,20 @@ public class DataSetup implements CommandLineRunner {
         // HVORDAN DET FUNGERER :) HILSEN DEN BEDRE TUTOR
 
 
+
         MediaLink testML = new MediaLink(null,"www.smileyface.dk", MediaType.VIDEO);
         mediaLinkRepository.save(testML);
-
         Pin testerPin = new Pin(null,400, 600, 22, 22, "JAMEN GODDAG DU");
         pinRepository.save(testerPin);
-
         PinMediaKey nøglen = new PinMediaKey(testerPin.getPinId(), testML.getMediaLinkId());
         PinMedia tester = new PinMedia(nøglen, testerPin, testML);
-
-
-
-
+        MediaLink two = new MediaLink(null, "www.hejVenner.dk", MediaType.PHOTO);
+        mediaLinkRepository.save(two);
+        PinMediaKey nøgle2 = new PinMediaKey(testerPin.getPinId(),two.getMediaLinkId());
+        PinMedia test2 = new PinMedia(nøgle2, testerPin, two);
+        pinMediaRepository.save(test2);
         pinMediaRepository.save(tester);
+
         //pinRepository.save(testPin);
         //tourRepository.save(testTour);
         //mediaLinkRepository.save(testML);
