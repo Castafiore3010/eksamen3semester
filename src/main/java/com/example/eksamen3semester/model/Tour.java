@@ -8,6 +8,35 @@ import java.util.List;
 @Entity
 @Table(name = "tours")
 public class Tour {
+
+    public static class ShortPinList {
+        Long pinId;
+        String description;
+
+        public ShortPinList(Long pinId, String description) {
+            this.pinId = pinId;
+            this.description = description;
+        }
+
+        public Long getPinId() {
+            return pinId;
+        }
+
+        public void setPinId(Long pinId) {
+            this.pinId = pinId;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        public void setDescription(String description) {
+            this.description = description;
+        }
+    }
+
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "tour_id")
@@ -23,6 +52,9 @@ public class Tour {
     @JoinTable(name = "tour_media_links", joinColumns = @JoinColumn(name = "media_link_id"), inverseJoinColumns = @JoinColumn(name = "tour_id"))
     @JsonIgnore
     private List<MediaLink> mediaLinks;
+
+    @Transient
+    private List<ShortPinList> shortPinList;
 
 
     public Tour() {
@@ -70,5 +102,13 @@ public class Tour {
 
     public void setMediaLinks(List<MediaLink> mediaLinks) {
         this.mediaLinks = mediaLinks;
+    }
+
+    public List<ShortPinList> getShortPinList() {
+        return shortPinList;
+    }
+
+    public void setShortPinList(List<ShortPinList> shortPinList) {
+        this.shortPinList = shortPinList;
     }
 }

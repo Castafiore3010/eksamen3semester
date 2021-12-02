@@ -7,10 +7,7 @@ import {setActiveLink} from "../utils.js";
 
 
 window.addEventListener("load", async () => {
-    function handlers() {
-        handleMap();
-    }
-    handlers();
+
 
     function handleMap() {
 
@@ -37,10 +34,14 @@ window.addEventListener("load", async () => {
                 marker.style.position = "absolute";
                 marker.style.left = evt.pageX.toString() + "px";
                 marker.style.top = evt.pageY.toString() + "px";
+                marker.style.zIndex = "100000";
             }
         }
     }
 
+    async function scrollTo() {
+        window.scrollTo(0, 1500);
+    }
 
     const templateHome = await loadTemplate("templates/home.html");
     const templateTours = await loadTemplate("templates/tours.html");
@@ -49,23 +50,17 @@ window.addEventListener("load", async () => {
 
     adjustForMissingHash();
     router
-        .hooks({
-            before(done, match) {
-                setActiveLink("topnav", match.url)
-                done()
-            }
-        })
         .on({
             "/": () => {
-                renderTemplate(templateHome, "content")
                 console.log("router working");
             },
             "/tours" : () => {
-
                 renderTemplate(templateTours, "content");
             },
             "/map" : () => {
                 renderTemplate(templateHome, "content");
+                scrollTo();
+                handleMap();
             }
 
         })

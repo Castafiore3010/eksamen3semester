@@ -4,99 +4,52 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <style>
-        .topnav {
-            overflow: hidden;
-            background-color: #333;
-            position: relative;
-        }
-
-        /* Hide the links inside the navigation menu (except for logo/home) */
-        .topnav #myLinks {
-            display: none;
-        }
-
-        /* Style navigation menu links */
-        .topnav a {
-            color: white;
-            padding: 14px 16px;
-            text-decoration: none;
-            font-size: 17px;
-            display: block;
-        }
-
-        /* Style the hamburger menu */
-        .topnav a.icon {
-            background: black;
-            display: block;
-            position: absolute;
-            right: 0;
-            top: 0;
-        }
-
-        /* Add a grey background color on mouse-over */
-
-
-        /* Style the active link (or home/logo) */
-        .active {
-            background-color: #6495ed;
-            color: black;
-        }
-
-
-
-
-        #mapTest .rTopnav {
-            position: absolute;
-            top: 12%;
-            left: 56%;
-        }
-        .checkBoxPanel {
-            position: absolute;
-            top: 12%;
-            left: 58%;
-            border: 1px solid crimson;
-            display: none;
-
-        }
-        .checkBoxPanel > label {
-            font-family: Ebrima,sans-serif;
-        }
-        .checkBoxPanel > input {
-            width: 24px;
-            height: 24px;
-            margin: 8px 8px 0 8px;
-        }
-
-
-    </style>
+    <link rel="stylesheet" type="text/css" href="./stylesheets/landingPageStyle.css">
     <script src="index.js" type="module"></script>
 </head>
 <body>
+<header>
+    <a href="#" class="logo">CHRISTIANSØ</a>
+    <ul>
+        <li><a href="/" class="active" data-navigo>Home</a></li>
+        <li><a href="#">Tours</a></li>
+        <li><a href="/map" data-navigo>Map</a></li>
+    </ul>
+</header>
+<section>
+    <img src="./images/cloud.png" id="cloud1">
+    <img src="./images/sunFlare.png" id="sunFlare">
+    <img src="./images/land2.png" id="land">
+    <h2 id="text1">DEN VISUELLE GUIDE TIL ERTEHOLMENE</h2>
+    <a href="/map" id="frontBtn" data-navigo>Udforsk Kortet</a>
+</section>
 
-<!-- Top Navigation Menu -->
-<div class="topnav" id="topnav">
-    <a href="/" class="active" data-navigo>HOME</a>
-    <!-- Navigation links (hidden by default) -->
-    <div id="myLinks">
-        <a href="/tours" data-navigo>Tours</a>
-        <a href="/map" data-navigo>Map</a>
-        <a href="/contact">Contact</a>
-        <a href="/about">About</a>
-    </div>
-    <!-- "Hamburger menu" / "Bar icon" to toggle the navigation links -->
-    <a href="javascript:void(0);" class="icon" onclick="toggleMenu('myLinks')">
-        <i class="fa fa-bars"></i>
-    </a>
-</div>
-<hr>
 
 
 
 <div id="marker"></div>
-<div id="content"></div>
+<div id="content" class="secondPart"></div>
 
 <script>
+
+    let clouds = document.getElementById('cloud1');
+    let sun = document.getElementById('sunFlare');
+    let land = document.getElementById('land');
+    let text = document.getElementById('text1');
+    let btn = document.getElementById('frontBtn');
+    let header = document.querySelector('header');
+
+
+    window.addEventListener('scroll', () => {
+        let value = window.scrollY;
+        clouds.style.left = 0.25 * value + 'px';
+        sun.style.top = value * 1.05 + 'px';
+        //land.style.top = value * 0.5 + 'px';
+        text.style.marginRight = value * 2 + 'px';
+        text.style.marginTop = value + 'px';
+        btn.style.marginTop = value * 2 + 'px';
+        header.style.top = value * 0.5 + 'px';
+    })
     async function loadTemplate(page) {
         const resHtml = await fetch(page).then(r => {
             if (!r.ok) {
