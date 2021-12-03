@@ -48,6 +48,20 @@ window.addEventListener("load", async () => {
         array.filter(link => link.id !== id).forEach(link => link.classList.remove("active"));
     }
 
+    function test() {
+        let christinasCoorddsad15 = 15.189608459058762
+        let christiansCoordi = 55.32098217829384
+        let map = L.map('Lmap').setView([55.32098217829384, 15.189608459058762], 17);
+
+        let tiles = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=sk.eyJ1IjoibWljazM0NjAiLCJhIjoiY2t3cWhjN2lkMG1uYzJxdXMzY2psZGNrNCJ9.r5xaFY3G00Kb05VZRZ1GkQ', {
+            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+            maxZoom: 30,
+            id: 'mapbox/streets-v11',
+            tileSize: 512,
+            zoomOffset: -1
+        }).addTo(map);
+    }
+
     const templateEmpty = await loadTemplate("templates/emptyTemplate.html")
     const templateHome = await loadTemplate("templates/home.html");
     const templateTours = await loadTemplate("templates/tours.html");
@@ -61,6 +75,8 @@ window.addEventListener("load", async () => {
                 console.log("router working");
                 makeActive('homeLink');
                 renderTemplate(templateEmpty, "content");
+                test();
+
                 },
             "/tours" : () => {
                 renderTemplate(templateTours, "content");
