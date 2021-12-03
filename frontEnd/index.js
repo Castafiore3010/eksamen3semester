@@ -42,6 +42,12 @@ window.addEventListener("load", async () => {
         window.scrollTo(0, 1500);
     }
 
+    function makeActive(id) {
+        let array = Array.from(document.getElementsByTagName('a'));
+        document.getElementById(id).classList.add("active");
+        array.filter(link => link.id !== id).forEach(link => link.classList.remove("active"));
+    }
+
     const templateEmpty = await loadTemplate("templates/emptyTemplate.html")
     const templateHome = await loadTemplate("templates/home.html");
     const templateTours = await loadTemplate("templates/tours.html");
@@ -53,11 +59,7 @@ window.addEventListener("load", async () => {
         .on({
             "/": () => {
                 console.log("router working");
-                if (!document.getElementById('homeLink').classList.contains("active")) {
-                    document.getElementById('homeLink').classList.add("active");
-                    let lol = Array.from(document.getElementsByTagName('a'));
-                    lol.filter(link => link.id !== 'homeLink').forEach(link => link.classList.remove("active"))
-                }
+                makeActive('homeLink');
                 renderTemplate(templateEmpty, "content");
                 },
             "/tours" : () => {
@@ -72,8 +74,7 @@ window.addEventListener("load", async () => {
                 document.getElementById('frontBtn').addEventListener("click" ,async () => {
                     scrollTo();
                 })
-                document.getElementById('homeLink').classList.remove("active");
-                document.getElementById('mapLink').classList.add("active");
+               makeActive('mapLink');
             }
 
         })
