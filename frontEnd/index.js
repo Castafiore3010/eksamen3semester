@@ -9,6 +9,19 @@ import {setActiveLink} from "../utils.js";
 window.addEventListener("load", async () => {
 
 
+    function openToolBox() {
+        document.getElementById('toolBoxOpener').onclick = async () => {
+            let toolbox = document.getElementById('toolbox');
+            if (toolbox.style.display === "block") {
+                toolbox.style.display = "none";
+            } else {
+                toolbox.style.display = "block";
+            }
+
+        }
+    }
+
+
     function handleMap() {
 
         document.getElementById('content').onmouseover = async (evt) => {
@@ -56,15 +69,19 @@ window.addEventListener("load", async () => {
         let tiles = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=sk.eyJ1IjoibWljazM0NjAiLCJhIjoiY2t3cWhjN2lkMG1uYzJxdXMzY2psZGNrNCJ9.r5xaFY3G00Kb05VZRZ1GkQ', {
             attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
             maxZoom: 30,
+            minZoom: 16,
             id: 'mapbox/streets-v11',
             tileSize: 512,
             zoomOffset: -1
         }).addTo(map);
+        map.scrollWheelZoom.disable();
+
     }
 
     const templateEmpty = await loadTemplate("templates/emptyTemplate.html")
     const templateHome = await loadTemplate("templates/home.html");
     const templateTours = await loadTemplate("templates/tours.html");
+    const leafletTemplate = await loadTemplate("templates/leafletTemplate.html")
 
     const router = new Navigo("/", {hash : true});
 
@@ -75,22 +92,26 @@ window.addEventListener("load", async () => {
                 console.log("router working");
                 makeActive('homeLink');
                 renderTemplate(templateEmpty, "content");
-                test();
+
 
                 },
             "/tours" : () => {
                 renderTemplate(templateTours, "content");
             },
             "/map" :  (match) => {
-                renderTemplate(templateHome, "content");
+                //renderTemplate(templateHome, "content");
+                renderTemplate(leafletTemplate, "content");
                 console.log(match)
                 scrollTo();
-                handleMap();
+
+                //handleMap();
                 //document.getElementById('frontBtn').href = "";
                 document.getElementById('frontBtn').addEventListener("click" ,async () => {
                     scrollTo();
                 })
                makeActive('mapLink');
+                openToolBox();
+                test();
             }
 
         })
