@@ -38,11 +38,11 @@ window.addEventListener("load", async () => {
             }
         }
     }
-
-    async function scrollTo() {
+    function scrollTo() {
         window.scrollTo(0, 1500);
     }
 
+    const templateEmpty = await loadTemplate("templates/emptyTemplate.html")
     const templateHome = await loadTemplate("templates/home.html");
     const templateTours = await loadTemplate("templates/tours.html");
 
@@ -53,14 +53,27 @@ window.addEventListener("load", async () => {
         .on({
             "/": () => {
                 console.log("router working");
-            },
+                if (!document.getElementById('homeLink').classList.contains("active")) {
+                    document.getElementById('homeLink').classList.add("active");
+                    let lol = Array.from(document.getElementsByTagName('a'));
+                    lol.filter(link => link.id !== 'homeLink').forEach(link => link.classList.remove("active"))
+                }
+                renderTemplate(templateEmpty, "content");
+                },
             "/tours" : () => {
                 renderTemplate(templateTours, "content");
             },
-            "/map" : () => {
+            "/map" :  (match) => {
                 renderTemplate(templateHome, "content");
+                console.log(match)
                 scrollTo();
                 handleMap();
+                //document.getElementById('frontBtn').href = "";
+                document.getElementById('frontBtn').addEventListener("click" ,async () => {
+                    scrollTo();
+                })
+                document.getElementById('homeLink').classList.remove("active");
+                document.getElementById('mapLink').classList.add("active");
             }
 
         })
