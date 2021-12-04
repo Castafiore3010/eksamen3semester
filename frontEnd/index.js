@@ -1,4 +1,7 @@
 import "https://unpkg.com/navigo"  //Will create the global Navigo object used below
+import anime from '../node_modules/animejs/lib/anime.es.js';
+//const anime = require('animejs');
+
 
 import {
     renderText, adjustForMissingHash, loadTemplate, renderTemplate,
@@ -6,7 +9,47 @@ import {
 import {setActiveLink} from "../utils.js";
 
 
+
 window.addEventListener("load", async () => {
+
+
+    function animateText() {
+        let txt = document.getElementById('overTitle');
+        let animation = anime({
+            targets: txt,
+            translateX: {
+                value: [1600, 0],
+                duration: 2000,
+            },
+            duration: 2000,
+            easing: 'easeInOutExpo',
+            delay: 250
+        })
+    }
+    function animateBox() {
+
+        let btn = document.getElementById('toolBoxOpener');
+        let animation = anime({
+            targets: btn,
+            translateX: {
+                value: [1600, 0],
+                duration: 2000,
+            },
+            rotate: {
+                value: 360,
+                duration: 3000,
+                easing : 'easeInOutSine',
+            },
+            borderRadius: [50, 0],
+            duration: 2000,
+            easing: 'easeInOutExpo',
+            delay: 250
+        })
+
+
+        console.log("TRYNA ANIMATE")
+    }
+
 
 
     function openToolBox() {
@@ -112,6 +155,8 @@ window.addEventListener("load", async () => {
                makeActive('mapLink');
                 openToolBox();
                 test();
+                animateText()
+                animateBox();
             }
 
         })
