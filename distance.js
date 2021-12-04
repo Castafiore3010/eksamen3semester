@@ -11,7 +11,7 @@ function degrees_to_radians(degrees)
 }
 
 function distanceBetween(lat1, lng1, lat2, lng2) {
-    const KILOMERTERS_PER_NAUTICAL_MILE = 1.85200;
+    const KILOMETERS_PER_NAUTICAL_MILE = 1.85200;
     let lat1Rad = degrees_to_radians(lat1);
     let lng1Rad = degrees_to_radians(lng1);
     let lat2Rad = degrees_to_radians(lat2);
@@ -25,7 +25,7 @@ function distanceBetween(lat1, lng1, lat2, lng2) {
 
     let nauticalMiles = 60 * radians_to_degrees(angle);
     // return distance as kilometers
-    return KILOMERTERS_PER_NAUTICAL_MILE * nauticalMiles;
+    return KILOMETERS_PER_NAUTICAL_MILE * nauticalMiles;
 
 }
 let lat1 = 55.74077370039102;

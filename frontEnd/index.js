@@ -13,6 +13,7 @@ import {setActiveLink} from "../utils.js";
 window.addEventListener("load", async () => {
 
 
+
     // ANIMATIONS
 
     function animateBox() {
@@ -93,6 +94,11 @@ window.addEventListener("load", async () => {
         array.filter(link => link.id !== id).forEach(link => link.classList.remove("active"));
     }
 
+    //55.32073, 15.18601
+    //55.32132, 15.18703
+    //55.31933, 15.18896
+
+
     function test() {
         let christinasCoorddsad15 = 15.189608459058762
         let christiansCoordi = 55.32098217829384
@@ -107,6 +113,43 @@ window.addEventListener("load", async () => {
             zoomOffset: -1
         }).addTo(map);
         map.scrollWheelZoom.disable();
+
+
+
+
+        /*
+        let latlng = [
+            [55.32073, 15.18601],
+            [55.32132, 15.18703],
+            [55.31933, 15.18896]
+        ];
+        const polyline = L.polyline(latlng, {color: 'red'}).addTo(map);
+        map.fitBounds(polyline.getBounds());
+
+         */
+
+
+        let marker;
+        document.getElementById('churchCheckBox').onclick = async () => {
+
+            let icon = L.icon({
+                iconUrl: './images/church2.png',
+                iconSize: [48,48],
+
+            })
+
+            if (document.getElementById('churchCheckBox').checked === true) {
+                marker = L.marker([55.32132, 15.18703], {icon : icon, title: "Kirke"}).addTo(map);
+                marker.bindPopup("Christiansø Kirke");
+
+
+            } else {
+                map.removeLayer(marker);
+            }
+
+
+        }
+
 
     }
 
@@ -148,6 +191,7 @@ window.addEventListener("load", async () => {
                 animateBox();
                 animateMap();
                 animateBtnRotate();
+
             }
 
         })
