@@ -208,6 +208,7 @@ section img#land {
     height: 104px;
     border: 1px dotted cyan;
     text-align: center;
+    justify-content: space-evenly;
 
     display: flex;
 }
