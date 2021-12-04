@@ -74,8 +74,10 @@ window.addEventListener("load", async () => {
             let toolbox = document.getElementById('toolbox');
             if (toolbox.style.display === "block") {
                 toolbox.style.display = "none";
+                document.getElementById('toolBoxOpener').style.background = "#fff"
             } else {
                 toolbox.style.display = "block";
+                document.getElementById('toolBoxOpener').style.background = "#555"
             }
 
         }
