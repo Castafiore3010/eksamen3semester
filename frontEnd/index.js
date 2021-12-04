@@ -48,6 +48,7 @@ window.addEventListener("load", async () => {
         console.log("én gang til")
         let animation = anime({
                 targets: btn,
+
                 translateX: 0,
                 rotate: {
                     value: 360,
