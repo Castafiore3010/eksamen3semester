@@ -13,45 +13,61 @@ import {setActiveLink} from "../utils.js";
 window.addEventListener("load", async () => {
 
 
-    function animateText() {
-        let txt = document.getElementById('overTitle');
-        let animation = anime({
-            targets: txt,
-            translateX: {
-                value: [1600, 0],
-                duration: 2000,
-            },
-            duration: 2000,
-            easing: 'easeInOutExpo',
-            delay: 250
-        })
-    }
+    // ANIMATIONS
+
     function animateBox() {
 
-        let btn = document.getElementById('toolBoxOpener');
+        let upperBox = document.getElementById('upperBox');
         let animation = anime({
-            targets: btn,
+            targets: upperBox,
             translateX: {
                 value: [1600, 0],
-                duration: 2000,
+                duration: 2500,
             },
-            rotate: {
-                value: 360,
-                duration: 3000,
-                easing : 'easeInOutSine',
-            },
-            borderRadius: [50, 0],
-            duration: 2000,
             easing: 'easeInOutExpo',
-            delay: 250
-        })
+            delay: 200
+        });
 
 
         console.log("TRYNA ANIMATE")
     }
+    function animateMap() {
+        let map = document.getElementById('Lmap');
+        let animation = anime({
+            targets: map,
+            translateX: {
+                value: [1600, 0],
+                duration: 2500,
+            },
+            easing: 'easeInOutExpo',
+            delay: 200
+        })
+    }
+    function animateBtnRotate() {
+        let btn = document.getElementById('toolBoxOpener');
+        console.log("én gang til")
+        let animation = anime({
+                targets: btn,
+                translateX: 0,
+                rotate: {
+                    value: 360,
+                    duration: 1000,
+                    easing: 'easeInOutSine',
+                    delay: 500
+                },
+                easing: 'easeInOutExpo',
+            });
+        document.querySelector('.toolBoxOpener').onmouseenter = animation.play;
 
 
 
+
+
+
+    }
+
+
+    // OPEN TOOLBOX
     function openToolBox() {
         document.getElementById('toolBoxOpener').onclick = async () => {
             let toolbox = document.getElementById('toolbox');
@@ -64,36 +80,6 @@ window.addEventListener("load", async () => {
         }
     }
 
-
-    function handleMap() {
-
-        document.getElementById('content').onmouseover = async (evt) => {
-
-            let map = document.getElementById('map');
-            console.log(map.id);
-            console.log("x POS: " + evt.pageX + ", y: POS: " + evt.pageY)
-
-            //handle map click.
-            map.onclick = async (evt) => {
-                // load marker
-                const markerTemplate = await loadTemplate("templates/markerTemplate.html")
-                renderTemplate(markerTemplate, "marker")
-                const marker = document.getElementById('marker');
-
-                // remove marker
-                marker.onclick = async () => {
-                    marker.style.display = "none";
-                }
-
-                // display marker on mouse position
-                marker.style.display = "inline";
-                marker.style.position = "absolute";
-                marker.style.left = evt.pageX.toString() + "px";
-                marker.style.top = evt.pageY.toString() + "px";
-                marker.style.zIndex = "100000";
-            }
-        }
-    }
     function scrollTo() {
         window.scrollTo(0, 1500);
     }
@@ -155,8 +141,10 @@ window.addEventListener("load", async () => {
                makeActive('mapLink');
                 openToolBox();
                 test();
-                animateText()
+                //animateText()
                 animateBox();
+                animateMap();
+                animateBtnRotate();
             }
 
         })
