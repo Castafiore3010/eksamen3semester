@@ -29,8 +29,6 @@ window.addEventListener("load", async () => {
             delay: 200
         });
 
-
-        console.log("TRYNA ANIMATE")
     }
     function animateMap() {
         let map = document.getElementById('Lmap');
@@ -46,10 +44,8 @@ window.addEventListener("load", async () => {
     }
     function animateBtnRotate() {
         let btn = document.getElementById('toolBoxOpener');
-        console.log("én gang til")
         let animation = anime({
                 targets: btn,
-
                 translateX: 0,
                 rotate: {
                     value: 360,
@@ -98,6 +94,95 @@ window.addEventListener("load", async () => {
     //55.32132, 15.18703
     //55.31933, 15.18896
 
+
+    function makeOptions(method, body) {
+        const opts = {
+            method: method,
+            headers: {
+                "Content-type": "application/json",
+                "Accept": "application/json"
+            }
+        }
+        if (body) { //Observe how we can add new fields to an object when needed
+            opts.body = JSON.stringify(body);
+        }
+        return opts;
+    }
+
+    let bridgeCounter = 0;
+    async function changeBridgeStatus(id, status) {
+
+        function Bridge(id, status) {
+            this.id = id;
+            this.status = status;
+            this.observers = [];
+        }
+        Bridge.prototype = {
+            subscribe: function(fn)
+            {
+                this.observers.push(fn);
+            },
+            unsubscribe: function (fnToRemove)
+            {
+                this.observers = this.observers.filter(fn => {
+                    if (fn !== fnToRemove) {
+                        return fn;
+                    }
+                })
+            },
+            fire: function ()
+            {
+                this.observers.forEach(fn => {
+                    fn.call();
+                })
+            }
+
+        }
+        const bridge = new Bridge(id, status);
+        bridge.subscribe(changeBridgeView);
+
+
+        let options = makeOptions("PUT", bridge);
+        let url = "http://localhost:7777/bridge/" + id;
+
+
+        let response = await fetch(url, options);
+        let body = await response.json();
+
+        bridge.fire();
+        console.log("Bridge status changed to : " + body.status);
+        bridgeCounter++;
+
+    }
+
+    let setUpChangeCounter = 0;
+    function setUpChange() {
+        document.getElementById('changeBridge').onclick = async () => {
+            if (setUpChangeCounter % 2 === 0) {
+                await changeBridgeStatus(1, "closed");
+                setUpChangeCounter++;
+            } else {
+                setUpChangeCounter++;
+                await changeBridgeStatus(1, "open");
+            }
+
+
+        }
+    }
+
+
+
+    function changeBridgeView() {
+        if (bridgeCounter % 2 === 0) {
+            document.getElementById('bridgeManager').style.background = 'crimson'
+            document.getElementById('bridgeManager').innerHTML = `<p>Bridge : Closed</p>`
+        } else {
+            document.getElementById('bridgeManager').style.background = 'darkseagreen'
+            document.getElementById('bridgeManager').innerHTML = `<p>Bridge : Open</p>`
+        }
+
+
+    }
 
     function test() {
         let christinasCoorddsad15 = 15.189608459058762
@@ -164,9 +249,10 @@ window.addEventListener("load", async () => {
     router
         .on({
             "/": () => {
-                console.log("router working");
+
                 makeActive('homeLink');
                 renderTemplate(templateEmpty, "content");
+
 
 
                 },
@@ -176,7 +262,6 @@ window.addEventListener("load", async () => {
             "/map" :  (match) => {
                 //renderTemplate(templateHome, "content");
                 renderTemplate(leafletTemplate, "content");
-                console.log(match)
                 scrollTo();
 
                 //handleMap();
@@ -191,6 +276,7 @@ window.addEventListener("load", async () => {
                 animateBox();
                 animateMap();
                 animateBtnRotate();
+                setUpChange();
 
             }
 

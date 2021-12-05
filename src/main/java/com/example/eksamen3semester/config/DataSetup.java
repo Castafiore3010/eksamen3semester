@@ -1,9 +1,7 @@
 package com.example.eksamen3semester.config;
 
-import com.example.eksamen3semester.model.MediaLink;
-import com.example.eksamen3semester.model.MediaType;
-import com.example.eksamen3semester.model.Pin;
-import com.example.eksamen3semester.model.Tour;
+import com.example.eksamen3semester.model.*;
+import com.example.eksamen3semester.repository.BridgeRepository;
 import com.example.eksamen3semester.repository.MediaLinkRepository;
 import com.example.eksamen3semester.repository.PinRepository;
 import com.example.eksamen3semester.repository.TourRepository;
@@ -18,11 +16,14 @@ public class DataSetup implements CommandLineRunner {
     PinRepository pinRepository;
     TourRepository tourRepository;
     MediaLinkRepository mediaLinkRepository;
+    BridgeRepository bridgeRepository;
 
-    public DataSetup(PinRepository pinRepository, TourRepository tourRepository, MediaLinkRepository mediaLinkRepository){
+    public DataSetup(PinRepository pinRepository, TourRepository tourRepository, MediaLinkRepository mediaLinkRepository
+    , BridgeRepository bridgeRepository){
         this.pinRepository = pinRepository;
         this.tourRepository = tourRepository;
         this.mediaLinkRepository = mediaLinkRepository;
+        this.bridgeRepository = bridgeRepository;
     }
 
     @Override
@@ -30,6 +31,9 @@ public class DataSetup implements CommandLineRunner {
         List<MediaLink> listOfMediaLinks = new ArrayList<MediaLink>();
         List<Tour> listOfTour = new ArrayList<Tour>();
         List<Pin> listOfPins = new ArrayList<Pin>();
+
+        BridgeStatus bridge = new BridgeStatus(1L, "closed");
+
 
         //Pins
         Pin testPin = new Pin(null,300,20,10,50,"lalala");
@@ -61,6 +65,7 @@ public class DataSetup implements CommandLineRunner {
 
         pinRepository.save(testPin);
         tourRepository.save(soloTour);
+        bridgeRepository.save(bridge);
         //tourRepository.save(testTour);
         //mediaLinkRepository.save(testML);
 

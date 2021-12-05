@@ -171,6 +171,30 @@ section img#land {
 
 }
 
+#bridgeManager {
+    margin-left: 24px;
+    margin-top: 24px;
+    margin-bottom: 24px;
+    padding: 8px 30px;
+    font-size: 1.5em;
+    border-radius: 40px;
+    background-color: darkseagreen;
+    color: #000000;
+    border: none;
+}
+
+#changeBridge {
+    margin-left: 24px;
+    margin-top: 24px;
+    margin-bottom: 24px;
+    padding: 8px 30px;
+    font-size: 1.5em;
+    border-radius: 40px;
+    background-color: #555;
+    color: #000000;
+    border: none;
+}
+
 
 .toolbox {
     height: 200px;
