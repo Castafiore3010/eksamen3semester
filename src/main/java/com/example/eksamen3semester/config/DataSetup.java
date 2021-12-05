@@ -32,7 +32,7 @@ public class DataSetup implements CommandLineRunner {
         List<Tour> listOfTour = new ArrayList<Tour>();
         List<Pin> listOfPins = new ArrayList<Pin>();
 
-        BridgeStatus bridge = new BridgeStatus(1L, "closed");
+        BridgeStatus bridge = new BridgeStatus(1L, "open");
 
 
         //Pins
@@ -64,8 +64,8 @@ public class DataSetup implements CommandLineRunner {
         //testTour.setMediaLinks(listOfMediaLinks);
 
         pinRepository.save(testPin);
-        tourRepository.save(soloTour);
-        bridgeRepository.save(bridge);
+        //tourRepository.save(soloTour);
+        //bridgeRepository.save(bridge);
         //tourRepository.save(testTour);
         //mediaLinkRepository.save(testML);
 

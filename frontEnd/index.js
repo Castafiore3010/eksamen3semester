@@ -197,12 +197,12 @@ window.addEventListener("load", async () => {
             tileSize: 512,
             zoomOffset: -1
         }).addTo(map);
-        map.scrollWheelZoom.disable();
+        //map.scrollWheelZoom.disable();
 
 
 
 
-        /*
+
         let latlng = [
             [55.32073, 15.18601],
             [55.32132, 15.18703],
@@ -211,7 +211,7 @@ window.addEventListener("load", async () => {
         const polyline = L.polyline(latlng, {color: 'red'}).addTo(map);
         map.fitBounds(polyline.getBounds());
 
-         */
+
 
 
         let marker;
