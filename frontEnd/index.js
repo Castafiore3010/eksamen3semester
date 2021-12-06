@@ -2,10 +2,13 @@ import "https://unpkg.com/navigo"  //Will create the global Navigo object used b
 import anime from '../node_modules/animejs/lib/anime.es.js';
 //const anime = require('animejs');
 
-
+import {
+    checkCurrentSeason, changeSeasonView
+} from "./dyrJS.js"
 import {
     renderText, adjustForMissingHash, loadTemplate, renderTemplate,
 } from "../utils.js"
+
 import {setActiveLink} from "../utils.js";
 
 
@@ -242,6 +245,9 @@ window.addEventListener("load", async () => {
     const templateHome = await loadTemplate("templates/home.html");
     const templateTours = await loadTemplate("templates/tours.html");
     const leafletTemplate = await loadTemplate("templates/leafletTemplate.html")
+    const templateDyr = await loadTemplate("templates/dyrTemplate.html")
+    const templateBygninger = await loadTemplate("templates/bygningerTemplate.html")
+    const templateSpil = await loadTemplate("templates/spilTemplate.html")
 
     const router = new Navigo("/", {hash : true});
 
@@ -249,12 +255,8 @@ window.addEventListener("load", async () => {
     router
         .on({
             "/": () => {
-
                 makeActive('homeLink');
                 renderTemplate(templateEmpty, "content");
-
-
-
                 },
             "/tours" : () => {
                 renderTemplate(templateTours, "content");
@@ -263,7 +265,6 @@ window.addEventListener("load", async () => {
                 //renderTemplate(templateHome, "content");
                 renderTemplate(leafletTemplate, "content");
                 scrollTo();
-
                 //handleMap();
                 //document.getElementById('frontBtn').href = "";
                 document.getElementById('frontBtn').addEventListener("click" ,async () => {
@@ -277,7 +278,20 @@ window.addEventListener("load", async () => {
                 animateMap();
                 animateBtnRotate();
                 setUpChange();
-
+            },
+            "/dyr" : () => {
+                makeActive('dyrLink');
+                renderTemplate(templateDyr, "content");
+                checkCurrentSeason(); // Changes current season title to season name
+                scrollTo()
+            },
+            "/bygninger" : () => {
+                makeActive('bygningerLink');
+                renderTemplate(templateBygninger, "content");
+            },
+            "/spil" : () => {
+                makeActive('spilLink');
+                renderTemplate(templateSpil, "content")
             }
 
         })
