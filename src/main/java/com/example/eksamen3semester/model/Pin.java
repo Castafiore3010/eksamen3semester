@@ -7,6 +7,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "pins")
+
 public class Pin {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,6 +22,7 @@ public class Pin {
 
     private double latitude;
     private double longitude;
+    @Column(length = 10000)
     private String description;
 
 
@@ -31,6 +33,8 @@ public class Pin {
     @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(name = "pin_media_links", joinColumns = @JoinColumn(name = "media_link_id"), inverseJoinColumns = @JoinColumn(name = "pin_id"))
     private List<MediaLink> mediaLinks;
+
+    private String title;
 
 
     public Pin (){}
@@ -53,6 +57,21 @@ public class Pin {
         this.description = description;
         this.tours = tours;
         this.mediaLinks = mediaLinks;
+    }
+
+    public Pin(Long pinId, double latitude, double longitude, String description) {
+        this.pinId = pinId;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.description = description;
+    }
+
+    public Pin(Long pinId, double latitude, double longitude, String description, String title) {
+        this.pinId = pinId;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.description = description;
+        this.title = title;
     }
 
     public Long getPinId() {
@@ -117,5 +136,13 @@ public class Pin {
 
     public void setMediaLinks(List<MediaLink> mediaLinks) {
         this.mediaLinks = mediaLinks;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

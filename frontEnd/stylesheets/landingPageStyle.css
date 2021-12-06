@@ -98,6 +98,17 @@ section img#land {
 
 }
 
+.popup {
+    margin: 8px;
+    font-size: 150%;
+
+}
+.popup h4 {
+    color: #000000;
+    font-size: 200%;
+
+}
+
 
 
 #text1 {
@@ -158,6 +169,7 @@ section img#land {
     background: #555;
 }
 
+
 .toolBoxOpener {
     margin-left: 24px;
     margin-top: 24px;
@@ -193,6 +205,24 @@ section img#land {
     background-color: #555;
     color: #000000;
     border: none;
+}
+
+#distanceTool {
+    margin-left: 24px;
+    margin-top: 24px;
+    margin-bottom: 24px;
+    padding: 8px 30px;
+    font-size: 1.5em;
+    border-radius: 40px;
+    background-color: #1086e0;
+
+    border: none;
+    display: none;
+
+}
+
+#distanceTool p {
+    color: #000000;
 }
 
 

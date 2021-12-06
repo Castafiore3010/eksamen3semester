@@ -4,6 +4,7 @@ import com.example.eksamen3semester.model.MediaLink;
 import com.example.eksamen3semester.model.Pin;
 import com.example.eksamen3semester.model.PinTour;
 import com.example.eksamen3semester.model.Tour;
+import com.example.eksamen3semester.repository.MediaLinkRepository;
 import com.example.eksamen3semester.repository.PinRepository;
 import com.example.eksamen3semester.repository.PinTourRepository;
 import com.example.eksamen3semester.repository.TourRepository;
@@ -19,15 +20,18 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/pins")
+@CrossOrigin(origins = "http://localhost:63342")
 public class PinController {
 
     PinRepository pinRepository;
     TourRepository tourRepository;
+    MediaLinkRepository mediaLinkRepository;
     PinTourRepository pinTourRepository;
 
-    PinController(PinRepository pinRepository, TourRepository tourRepository, PinTourRepository pinTourRepository) {
+    PinController(PinRepository pinRepository, TourRepository tourRepository, MediaLinkRepository mediaLinkRepository, PinTourRepository pinTourRepository) {
         this.pinRepository = pinRepository;
         this.tourRepository = tourRepository;
+        this.mediaLinkRepository = mediaLinkRepository;
         this.pinTourRepository = pinTourRepository;
     }
 
@@ -48,36 +52,42 @@ public class PinController {
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Pin> insertOne(@RequestBody Pin pin) {
-        List<Long> tourIdsForPins = new ArrayList<>();
-        List<Tour> allTours = tourRepository.findAll();
-        pin.getTours().forEach(tour -> tourIdsForPins.add(tour.getTourId()));
-        List<Tour> attachList = new ArrayList<>();
-        List<Pin> allPins = pinRepository.findAll();
-        Long newestId = allPins.get(allPins.size() - 1).getPinId() + 1L;
-        System.out.println("DEBUG: " + newestId);
-        boolean savePin = false;
-        int counter = 0;
-        PinTour pt = new PinTour();
-        for (Long id : tourIdsForPins) {
-            if (!allTours.get(counter).getTourId().equals(id)) {
-                attachList.add(allTours.get(counter));
-            } else {
-                savePin = true;
-                pt.setPinId(newestId);
-                pt.setTourId(allTours.get(counter).getTourId());
-                System.out.println("HEJ DEBUGGER");
-                System.out.println(pt.getPinId() + " " + pt.getTourId());
 
+        Pin managedPin = new Pin(pin.getPinId(), pin.getLatitude(), pin.getLongitude(), pin.getDescription());
+
+
+        // handle tours
+        List<Long> matchingTourIds = new ArrayList<>();
+        List<Tour> newToursToCreate = new ArrayList<>();
+        pin.getTours().forEach(tour -> matchingTourIds.add(tour.getTourId())); // Add Ids from received JSON tours [{}]
+        pin.getTours().forEach(tour -> {
+            if (tour.getTourId() == null) {
+                newToursToCreate.add(tour);
             }
-            counter++;
-        }
-        // TAG HÅND OM INDSÆTTELSE AF FLERE PinTours til tour_pins
-        pin.setTours(attachList);
-        pinRepository.save(pin);
-        if (savePin) {
-            pinTourRepository.save(pt);
-        }
-        return ResponseEntity.status(201).body(pin);
+        });
+        List<Tour> newlyAddedTours = tourRepository.saveAll(newToursToCreate); // save all new entities in db
+        List<Tour> matchingTours = tourRepository.findAllById(matchingTourIds); // find all matching in db
+        matchingTours.addAll(newlyAddedTours); // add new to matching
+        managedPin.setTours(matchingTours); // set tour list for pin
+
+        // handle media
+        List<Long> matchingMediaIds = new ArrayList<>();
+        List<MediaLink> newMediaLinksToCreate = new ArrayList<>();
+        pin.getMediaLinks().forEach(tour -> matchingMediaIds.add(tour.getMediaLinkId())); // Add Ids from received JSON mediaLinks [{}]
+        pin.getMediaLinks().forEach(mediaLink -> {
+            if (mediaLink.getMediaLinkId() == null) {
+                newMediaLinksToCreate.add(mediaLink);
+            }
+        });
+        List<MediaLink> newlyAddedMediaLinks = mediaLinkRepository.saveAll(newMediaLinksToCreate); // save all new entities
+        List<MediaLink> matchingLinks = mediaLinkRepository.findAllById(matchingMediaIds); // find all matching
+        matchingLinks.addAll(newlyAddedMediaLinks); // concat
+        managedPin.setMediaLinks(matchingLinks); // set list for pin
+
+
+
+
+        return ResponseEntity.status(201).body(pinRepository.save(managedPin));
 
     }
 

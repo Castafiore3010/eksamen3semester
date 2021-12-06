@@ -7,6 +7,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "tours")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "tourId")
 public class Tour {
 
     public static class ShortPinList {
@@ -45,12 +46,10 @@ public class Tour {
     private String description;
 
     @ManyToMany(mappedBy = "tours", cascade = CascadeType.PERSIST)
-    @JsonIgnore
     private List<Pin> pins;
 
     @ManyToMany(cascade = CascadeType.PERSIST)
-    @JoinTable(name = "tour_media_links", joinColumns = @JoinColumn(name = "media_link_id"), inverseJoinColumns = @JoinColumn(name = "tour_id"))
-    @JsonIgnore
+    @JoinTable(name = "tour_media_links", joinColumns = @JoinColumn(name = "tour_id"), inverseJoinColumns = @JoinColumn(name = "media_link_id"))
     private List<MediaLink> mediaLinks;
 
     @Transient

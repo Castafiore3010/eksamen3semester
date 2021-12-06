@@ -28,46 +28,63 @@ public class DataSetup implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        List<MediaLink> listOfMediaLinks = new ArrayList<MediaLink>();
-        List<Tour> listOfTour = new ArrayList<Tour>();
-        List<Pin> listOfPins = new ArrayList<Pin>();
-
+        // HANDLE BRIDGE SETUP
         BridgeStatus bridge = new BridgeStatus(1L, "open");
+        bridgeRepository.save(bridge);
 
 
-        //Pins
-        Pin testPin = new Pin(null,300,20,10,50,"lalala");
-        listOfPins.add(testPin);
+        Pin harbor = new Pin(null, 55.32073, 15.18601, "I 1684 besluttede Christian 5. at bygge et " +
+                "fæstningsanlæg på øerne omkring den naturlige havn mellem Kirkeholmen og Bodholmen. " +
+                "Anthon Coucheron fik opgaven og blev den første kommandant. Fæstningen kom til at hedde \"Christiansø\", " +
+                "og de to hovedøer skiftede navn til Christiansø (efter Christian 5.) og Frederiksø (efter Frederik 4.). " +
+                "Fæstningen bestod af to tårne, Store Tårn på Christiansø og Lille Tårn på Frederiksø, samt nogle bastioner og ringmure. " +
+                "Fæstningens andre bygninger blev opført omkring havnen. Fæstningen fungerede som militært anlæg indtil 1855.", "Christiansø Havn");
 
-        //Tour
-        Tour testTour = new Tour(null,"lalalfdsf");
-        listOfTour.add(testTour);
+        Pin church = new Pin(null, 55.32132, 15.18703, "Christiansø Kirke er en kirke i " +
+                "Christiansø Sogn. Kirken blev indrettet i 1821 i en tidligere våbensmedje. Indtil da, og siden 1685, " +
+                "havde der været en kirke i den underste etage i det største tårn i fæstningen.\n" +
+                "Christiansø Kirke blev ombygget og udvidet i 1852, og ved den lejlighed fik den et orgel, bygget af Frederik Hoffmann Ramus.\n" +
+                "Kirken blev igen restaureret i 1928 i nyklassicistisk stil., ", "Christiansø Kirke");
 
-        Tour soloTour = new Tour(null, "SMiletur");
-
-        //MediaLink
-        MediaLink testML = new MediaLink(null,"www.smileyface.dk", MediaType.VIDEO);
-        listOfMediaLinks.add(testML);
+        Pin millersHouse = new Pin(null, 55.31933, 15.18896, "Møllerens hus, her bor mølleren", "Møllerens hus");
 
 
 
-        //merge :)
-        testPin.setTours(listOfTour);
-        testPin.setMediaLinks(listOfMediaLinks);
+        Tour walkToMillersHouse = new Tour(null, "Gå tur i eftermiddagssolen, til Møllerens hus");
+        List<Pin> walkToMillersHousePinList = List.of(harbor, church, millersHouse);
+        walkToMillersHouse.setPins(walkToMillersHousePinList);
 
-        testTour.setPins(listOfPins);
-        testTour.setMediaLinks(listOfMediaLinks);
+        harbor.setTours(List.of(walkToMillersHouse));
+        church.setTours(List.of(walkToMillersHouse));
+        millersHouse.setTours(List.of(walkToMillersHouse));
 
-        testML.setTours(listOfTour);
-        testML.setPins(listOfPins);
+        MediaLink harborLink = new MediaLink(null, "<iframe width=\"560\" height=\"315\" " +
+                "src=\"https://www.youtube.com/embed/gIP3MCLzaiQ\" title=\"YouTube video player\" " +
+                "frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" " +
+                "allowfullscreen></iframe>", MediaType.VIDEO);
 
-        //testTour.setMediaLinks(listOfMediaLinks);
+        harbor.setMediaLinks(List.of(harborLink));
 
-        pinRepository.save(testPin);
-        //tourRepository.save(soloTour);
-        //bridgeRepository.save(bridge);
-        //tourRepository.save(testTour);
-        //mediaLinkRepository.save(testML);
+        MediaLink arrivalLinkforMillersHouseTour = new MediaLink(null, "<iframe width=\"560\" height=\"315\" " +
+                "src=\"https://www.youtube.com/embed/EDb6ydPKr40\" title=\"YouTube video player\" frameborder=\"0\" " +
+                "allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" " +
+                "allowfullscreen></iframe>", MediaType.VIDEO);
+
+        walkToMillersHouse.setMediaLinks(List.of(arrivalLinkforMillersHouseTour));
+
+
+
+        List<Pin> setUpPins = List.of(harbor, church, millersHouse);
+        List<Tour> setUpTours = List.of(walkToMillersHouse);
+        List<MediaLink> setUpLinks = List.of(harborLink, arrivalLinkforMillersHouseTour);
+
+
+
+        pinRepository.save(harbor);
+        pinRepository.save(church);
+        pinRepository.save(millersHouse);
+
+
 
     }
 

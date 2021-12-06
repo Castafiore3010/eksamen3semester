@@ -17,6 +17,20 @@ window.addEventListener("load", async () => {
 
 
 
+    const allPins = [];
+    async function fetchAllPins () {
+        let response = await fetch("http://localhost:7777/pins");
+        let responseData = await response.json()
+
+        responseData.forEach(pin => {
+            allPins.push(pin);
+        })
+
+    }
+    await fetchAllPins();
+    console.log(allPins);
+
+
     // ANIMATIONS
 
     function animateBox() {
@@ -206,14 +220,6 @@ window.addEventListener("load", async () => {
 
 
 
-        let latlng = [
-            [55.32073, 15.18601],
-            [55.32132, 15.18703],
-            [55.31933, 15.18896]
-        ];
-        const polyline = L.polyline(latlng, {color: 'red'}).addTo(map);
-        map.fitBounds(polyline.getBounds());
-
 
 
 
@@ -239,7 +245,86 @@ window.addEventListener("load", async () => {
         }
 
 
-    }
+        let localMarkers = [];
+        let localRoute = [];
+        let polyLines = [];
+        let routeDistance = 0;
+        let loopCounter = 0;
+        document.getElementById('millersHouseCheckBox').onclick = async () => {
+
+
+
+
+            if (document.getElementById('millersHouseCheckBox').checked === true) {
+
+                allPins.forEach(pin => {
+                    let newMarker = L.marker([pin.latitude, pin.longitude]).addTo(map)
+                    newMarker.bindPopup(`${pin.description}`);
+                    if (pin.mediaLinks.length > 0) {
+                        let customPopup = L.popup({
+                            maxWidth: 560,
+                            className: "popup"
+                        })
+                            .setLatLng([pin.latitude, pin.longitude])
+                            .setContent(`<h4>${pin.title}</h4><br><br>${pin.description}<br><br>${pin.mediaLinks[0].mediaLink}`)
+                        console.log(pin.mediaLinks);
+                        newMarker.bindPopup(customPopup);
+
+                    }
+                    let coords = newMarker.getLatLng();
+                    localRoute.push([coords.lat, coords.lng]);
+                    console.log("NUM OF COORDS : " + localRoute.length);
+
+                    localMarkers.push(newMarker);
+                    console.log("NUM OF MARKERS : " + localMarkers.length);
+                    });
+
+
+
+                if (polyLines.length < 1) {
+                    let newPolyLine = L.polyline(localRoute, {color : '#e38c12'}).addTo(map);
+                    polyLines.push(newPolyLine);
+                } else {
+                    polyLines[0].addTo(map);
+                }
+
+
+
+                for (let i = 0; i <= localRoute.length - 2; i++) {
+
+
+                        let latlng = L.latLng(localRoute[i][0], localRoute[i][1]);
+                        let next = L.latLng(localRoute[i+1][0], localRoute[i+1][1])
+                        let distance = latlng.distanceTo(next);
+                        console.log(distance);
+                        routeDistance += distance;
+
+                }
+                loopCounter++;
+
+                let distanceTool = document.getElementById('distanceTool');
+
+                distanceTool.style.display = "flex";
+                distanceTool.innerHTML = `<p>Rute længde:  ~${Math.round(routeDistance)} meter</p>`
+                console.log("DISTANCE : " + routeDistance);
+                routeDistance = 0;
+
+
+
+            }
+                else {
+                    localMarkers.forEach(marker => map.removeLayer(marker));
+                    polyLines.forEach(line => map.removeLayer(line));
+                    document.getElementById('distanceTool').style.display = "none";
+
+
+                }
+                localRoute = [];
+            }
+        }
+
+
+
 
     const templateEmpty = await loadTemplate("templates/emptyTemplate.html")
     const templateHome = await loadTemplate("templates/home.html");
