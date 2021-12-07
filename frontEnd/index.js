@@ -17,6 +17,9 @@ window.addEventListener("load", async () => {
 
 
 
+
+
+
     const allPins = [];
     async function fetchAllPins () {
         let response = await fetch("http://localhost:7777/pins");
@@ -82,6 +85,8 @@ window.addEventListener("load", async () => {
     }
 
 
+
+
     // OPEN TOOLBOX
     function openToolBox() {
         document.getElementById('toolBoxOpener').onclick = async () => {
@@ -96,6 +101,8 @@ window.addEventListener("load", async () => {
 
         }
     }
+
+
 
     function scrollTo() {
         window.scrollTo(0, 1500);
@@ -209,7 +216,7 @@ window.addEventListener("load", async () => {
         let tiles = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=sk.eyJ1IjoibWljazM0NjAiLCJhIjoiY2t3cWhjN2lkMG1uYzJxdXMzY2psZGNrNCJ9.r5xaFY3G00Kb05VZRZ1GkQ', {
             attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
             maxZoom: 30,
-            minZoom: 16,
+            minZoom: 5,
             id: 'mapbox/streets-v11',
             tileSize: 512,
             zoomOffset: -1
@@ -220,11 +227,23 @@ window.addEventListener("load", async () => {
 
 
 
+        function mapclick(e) {
+            console.log("coords : " + e.latlng);
+        }
+        function setupMapClick() {
+            map.on('click', mapclick)
+
+        }
+        setupMapClick();
+
 
 
 
         let marker;
-        document.getElementById('churchCheckBox').onclick = async () => {
+        let churchMarkers = [];
+        document.getElementById('churchCheckBox').onclick = async (evt) => {
+
+            let churchPins = allPins.filter(pin => pin.title == "Kirke");
 
             let icon = L.icon({
                 iconUrl: './images/church2.png',
@@ -233,12 +252,19 @@ window.addEventListener("load", async () => {
             })
 
             if (document.getElementById('churchCheckBox').checked === true) {
-                marker = L.marker([55.32132, 15.18703], {icon : icon, title: "Kirke"}).addTo(map);
-                marker.bindPopup("Christiansø Kirke");
+                churchPins.forEach(pin => {
+                    marker = L.marker([pin.latitude, pin.longitude], {icon : icon, title: `${pin.title}`}).addTo(map);
+                    marker.bindPopup(`${pin.description}`);
+                    churchMarkers.push(marker);
+                })
 
 
             } else {
-                map.removeLayer(marker);
+                churchMarkers.forEach(marker => {
+                    map.removeLayer(marker);
+                })
+                churchMarkers = [];
+
             }
 
 
@@ -281,17 +307,38 @@ window.addEventListener("load", async () => {
 
 
 
+                console.log(localRoute);
+
+
+
+               let routing =  L.Routing.control({
+                    waypoints: [
+                        [55.7034201, 12.5823192],
+                        [55.38417, 10.30924]
+
+
+                    ],
+                    routeWhileDragging: true
+                }).addTo(map);
+
+
+
+
+
+
                 if (polyLines.length < 1) {
                     let newPolyLine = L.polyline(localRoute, {color : '#e38c12'}).addTo(map);
                     polyLines.push(newPolyLine);
                 } else {
                     polyLines[0].addTo(map);
+
                 }
 
 
 
-                for (let i = 0; i <= localRoute.length - 2; i++) {
 
+
+                for (let i = 0; i <= localRoute.length - 2; i++) {
 
                         let latlng = L.latLng(localRoute[i][0], localRoute[i][1]);
                         let next = L.latLng(localRoute[i+1][0], localRoute[i+1][1])
@@ -363,6 +410,7 @@ window.addEventListener("load", async () => {
                 animateMap();
                 animateBtnRotate();
                 setUpChange();
+
             },
             "/dyr" : () => {
                 makeActive('dyrLink');

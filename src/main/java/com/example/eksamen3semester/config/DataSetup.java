@@ -27,36 +27,43 @@ public class DataSetup implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         // HANDLE BRIDGE SETUP
         BridgeStatus bridge = new BridgeStatus(1L, "open");
         bridgeRepository.save(bridge);
 
+        // DUMMY DATA
+
 
         Pin harbor = new Pin(null, 55.32073, 15.18601, "I 1684 besluttede Christian 5. at bygge et " +
-                "fæstningsanlæg på øerne omkring den naturlige havn mellem Kirkeholmen og Bodholmen. " +
+                "fæstningsanlæg på øerne omkring den naturlige havn mellem Kirkeholmen og Bodholmen. <br>" +
                 "Anthon Coucheron fik opgaven og blev den første kommandant. Fæstningen kom til at hedde \"Christiansø\", " +
-                "og de to hovedøer skiftede navn til Christiansø (efter Christian 5.) og Frederiksø (efter Frederik 4.). " +
-                "Fæstningen bestod af to tårne, Store Tårn på Christiansø og Lille Tårn på Frederiksø, samt nogle bastioner og ringmure. " +
+                "og de to hovedøer skiftede navn til Christiansø (efter Christian 5.) og Frederiksø (efter Frederik 4.).<br> " +
+                "Fæstningen bestod af to tårne, Store Tårn på Christiansø og Lille Tårn på Frederiksø, samt nogle bastioner og ringmure.<br> " +
                 "Fæstningens andre bygninger blev opført omkring havnen. Fæstningen fungerede som militært anlæg indtil 1855.", "Christiansø Havn");
 
         Pin church = new Pin(null, 55.32132, 15.18703, "Christiansø Kirke er en kirke i " +
                 "Christiansø Sogn. Kirken blev indrettet i 1821 i en tidligere våbensmedje. Indtil da, og siden 1685, " +
                 "havde der været en kirke i den underste etage i det største tårn i fæstningen.\n" +
                 "Christiansø Kirke blev ombygget og udvidet i 1852, og ved den lejlighed fik den et orgel, bygget af Frederik Hoffmann Ramus.\n" +
-                "Kirken blev igen restaureret i 1928 i nyklassicistisk stil., ", "Christiansø Kirke");
+                "Kirken blev igen restaureret i 1928 i nyklassicistisk stil., ", "Kirke");
 
         Pin millersHouse = new Pin(null, 55.31933, 15.18896, "Møllerens hus, her bor mølleren", "Møllerens hus");
 
 
+        Pin mill = new Pin(null, 55.31884, 15.189182, "Christiansø mølle", "Møllen");
+
+
 
         Tour walkToMillersHouse = new Tour(null, "Gå tur i eftermiddagssolen, til Møllerens hus");
-        List<Pin> walkToMillersHousePinList = List.of(harbor, church, millersHouse);
+        List<Pin> walkToMillersHousePinList = List.of(harbor, church, millersHouse, mill);
         walkToMillersHouse.setPins(walkToMillersHousePinList);
 
         harbor.setTours(List.of(walkToMillersHouse));
         church.setTours(List.of(walkToMillersHouse));
         millersHouse.setTours(List.of(walkToMillersHouse));
+        mill.setTours(List.of(walkToMillersHouse));
+
 
         MediaLink harborLink = new MediaLink(null, "<iframe width=\"560\" height=\"315\" " +
                 "src=\"https://www.youtube.com/embed/gIP3MCLzaiQ\" title=\"YouTube video player\" " +
@@ -83,6 +90,7 @@ public class DataSetup implements CommandLineRunner {
         pinRepository.save(harbor);
         pinRepository.save(church);
         pinRepository.save(millersHouse);
+        pinRepository.save(mill);
 
 
 

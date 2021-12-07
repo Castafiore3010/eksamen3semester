@@ -1,7 +1,9 @@
 {
   "name": "eksamen3semester",
   "version": "1.0.0",
-  "dependencies": {},
+  "dependencies": {
+    "leaflet-routing-machine": "^3.2.12"
+  },
   "devDependencies": {
     "animejs": "^3.2.1"
   }
