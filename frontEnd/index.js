@@ -229,6 +229,7 @@ window.addEventListener("load", async () => {
 
         function mapclick(e) {
             console.log("coords : " + e.latlng);
+            console.log(e);
         }
         function setupMapClick() {
             map.on('click', mapclick)
@@ -310,6 +311,7 @@ window.addEventListener("load", async () => {
                 console.log(localRoute);
 
 
+                /*
 
                let routing =  L.Routing.control({
                     waypoints: [
@@ -323,6 +325,8 @@ window.addEventListener("load", async () => {
 
 
 
+
+                 */
 
 
 
