@@ -10,6 +10,7 @@ import {
 } from "../utils.js"
 
 import {setActiveLink} from "../utils.js";
+import {startSpil} from "./spil.js";
 
 
 
@@ -429,6 +430,7 @@ window.addEventListener("load", async () => {
             "/spil" : () => {
                 makeActive('spilLink');
                 renderTemplate(templateSpil, "content")
+                startSpil();
             }
 
         })
