@@ -447,12 +447,12 @@ window.addEventListener("load", async () => {
         let polyLines = [];
         let routeDistance = 0;
         let loopCounter = 0;
-        document.getElementById('millersHouseCheckBox').onclick = async () => {
+        document.getElementById('tour1Checkbox').onclick = async () => {
 
 
 
 
-            if (document.getElementById('millersHouseCheckBox').checked === true) {
+            if (document.getElementById('tour1Checkbox').checked === true) {
 
                 allPins.filter(pin => {
                     if (pin.tours[0] != null){
@@ -602,12 +602,14 @@ window.addEventListener("load", async () => {
                     let id = match.params.tourId;
                     console.log("DEBUG MATCH PARAMS");
                     console.log(allTours);
-                    let tour = allTours.find(tour => {
-                        tour.tourId === id
-                    });
+                    let matchingTour = allTours.filter(tour => tour.tourId == id);
+                    console.log("matchingTour");
+                    console.log(matchingTour);
 
-                    console.log(tour);
-                    document.getElementById('millersHouseCheckBox').click();
+                    //console.log(tour[tourId]);
+                    let idRequest = `tour${matchingTour[0].tourId}Checkbox`;
+                    console.log(idRequest);
+                    document.getElementById(idRequest).click();
 
                 }
 
