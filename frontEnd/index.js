@@ -131,6 +131,8 @@ window.addEventListener("load", async () => {
 
 
 
+
+
     // ANIMATIONS
 
     function animateBox() {
@@ -597,7 +599,14 @@ window.addEventListener("load", async () => {
                 animateBtnRotate();
                 setUpChange();
                 if (match.params && match.params.tourId) {
+                    let id = match.params.tourId;
                     console.log("DEBUG MATCH PARAMS");
+                    console.log(allTours);
+                    let tour = allTours.find(tour => {
+                        tour.tourId === id
+                    });
+
+                    console.log(tour);
                     document.getElementById('millersHouseCheckBox').click();
 
                 }
