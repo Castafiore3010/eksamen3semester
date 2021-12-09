@@ -381,6 +381,9 @@ section img#land {
     cursor: pointer;
 
 }
+.pauseBtn {
+    color: #e38c12;
+}
 hr {
     color: #000000;
 }
