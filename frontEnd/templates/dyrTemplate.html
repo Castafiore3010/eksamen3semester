@@ -10,14 +10,19 @@
     </div>
 
     <div class="accordion">
-        <button type="button" class="accordion__button">Edderfuglen</button>
+        <button id="edderfuglBtn" type="button" class="accordion__button">Edderfuglen</button>
         <div class="accordion__content">
             <h1>Edderfuglen</h1>
             <div class="portraitFrame">
 
             <img src="./images/duck1.png" height="256" width="256">
-
+                <div class="portraitBtnPanel">
+                    <button type="button" class="playBtn" data-data-sound="bird">▶</button>
+                    <button type="button" class="pauseBtn" data-data-sound="bird">⏸</button>
+                </div>
             </div>
+            <hr>
+            <div class="innerTextAccordion" id="birdText">
             <p>
                 En edderfugl (uofficiel stavemåde blandt ornitologer: ederfugl) (fra oldnordisk æðr, latin: Somateria mollissima)
                 er en andefugl, der især findes i det nordligste Nordamerika, Europa og Asien.
@@ -45,15 +50,22 @@
             <p>
                 Edderfuglen yngler i en alder af 3 år. Der lægges et kuld årligt med 4-6 æg, der udruges på 25-28 dage. Ungerne er flyvefærdige mellem 65 og 75 dage gamle.
             </p>
+            </div>
 
 
         </div>
-        <button type="button" class="accordion__button">Grønbroget tudse</button>
+        <button id="toadBtn" type="button" class="accordion__button">Grønbroget tudse</button>
         <div class="accordion__content">
             <h1>Grønbroget tudse</h1>
             <div class="portraitFrame">
                 <img src="./images/froggy.png" height="256" width="256">
+                <div class="portraitBtnPanel">
+                    <button type="button" class="playBtn" data-data-sound="toad">▶</button>
+                    <button type="button" class="pauseBtn" data-data-sound="toad">⏸</button>
+                </div>
             </div>
+            <hr>
+            <div class="innerTextAccordion" id="toadText">
             <p>
                 Den grønbrogede tudse (Bufotes variabilis) er en art i familien Tudser.
                 Nyere forskning tyder på, at der ikke er tale om en enkelt biologisk art, men flere arter,
@@ -91,13 +103,20 @@
                 Dens ynglesteder er overvejende lavvandede, åbne vandhuller.
                 Tudsen kan også yngle i kystlaguner med et saltindhold på op til 8 promille.
             </p>
+            </div>
         </div>
-        <button type="button" class="accordion__button">Gråsælen</button>
+        <button id="sealBtn" type="button" class="accordion__button">Gråsælen</button>
         <div class="accordion__content">
             <h1>Gråsælen</h1>
             <div class="portraitFrame">
                 <img src="./images/seal1.png" height="256" width="256">
+                <div class="portraitBtnPanel">
+                <button type="button" class="playBtn" data-data-sound="seal">▶</button>
+                <button type="button" class="pauseBtn" data-data-sound="seal">⏸</button>
+                </div>
             </div>
+            <hr>
+            <div class="innerTextAccordion" id="sealText">
             <p>
                 Gråsælen (Halichoerus grypus) er et pattedyr i familien ægte sæler.
                 Den er udbredt i tre adskilte bestande i Nordatlanten, én ved den nordamerikanske østkyst,
@@ -143,6 +162,7 @@
                 det vil sige oftest på mindre end 120 meters dybde og i under 8 minutters varighed.
                 Hunnerne bliver kønsmodne cirka tre år gamle, mens hannerne først er kønsmodne 6-7 år gamle.
             </p>
+            </div>
         </div>
 
     </div>

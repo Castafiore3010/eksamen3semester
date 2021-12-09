@@ -13,6 +13,15 @@ body {
     background: linear-gradient(#1086e0,#e38c12);
 
 }
+#footer {
+    display: none;
+    outline: none;
+    width: 100%;
+    color: #555555;
+    text-align: left;
+    font-size: 1.1rem;
+
+}
 header {
     position: absolute;
     top: 0;
@@ -329,6 +338,12 @@ section img#land {
     display: none;
     overflow: auto;
 }
+
+.innerTextAccordion {
+    margin-top: 8px;
+    margin-bottom: 8px;
+    opacity: 0;
+}
 .accordion__content p {
     color: #000000;
     margin-left: 12px;
@@ -348,9 +363,28 @@ section img#land {
     position: relative;
     width: 100%;
     text-align: center;
+    margin-bottom: 8px;
 
 
 }
+.accordion__content .portraitFrame .portraitBtnPanel {
+    position: relative;
+    width: 100%;
+
+
+}
+.accordion__content .portraitFrame .portraitBtnPanel button {
+    border: none;
+    width: 3%;
+    background-color: #555555;
+    color: #e38c12;
+    cursor: pointer;
+
+}
+hr {
+    color: #000000;
+}
+
 
 .accordion__content .portraitFrame .portraitImage img {
 }

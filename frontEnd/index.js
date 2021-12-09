@@ -23,9 +23,80 @@ window.addEventListener("load", async () => {
             button.addEventListener('click', () => {
                 //const accordionContent = button.nextElementSibling;
                 button.classList.toggle('accordion__button--activeAccordion');
-
+                let currentScroll = window.scrollY;
+                window.scrollTo(0, document.body.scrollHeight);
             })
         })
+
+    }
+
+    function setupAnimalSounds() {
+        function AnimalSound(src) {
+            this.sound = document.createElement('audio');
+            this.sound.src = src;
+            this.sound.setAttribute('preload', 'auto');
+            this.sound.setAttribute('controls', 'none');
+            this.sound.style.display = 'none';
+            document.body.appendChild(this.sound)
+            this.play = () => {this.sound.play();}
+            this.stop = () => {this.sound.pause();}
+
+        }
+
+        let edderfuglSound = new AnimalSound("./images/duckSounds1.mp3");
+        let toadSound = new AnimalSound("./images/frogSounds1.mp3");
+        let sealSound = new AnimalSound("./images/sealSounds.mp3");
+        let playButtons = document.querySelectorAll('.playBtn');
+        let stopButtons = document.querySelectorAll('.pauseBtn');
+
+        console.log(playButtons);
+        playButtons.forEach(btn => {
+
+                if (btn.dataset.dataSound === "seal") {
+                    btn.addEventListener('click', async () => {
+                        console.log("DEBUG SOUND: SEAL")
+                        sealSound.play();
+                    })
+                }
+
+                if(btn.dataset.dataSound === "bird") {
+                    btn.addEventListener('click', async () => {
+                        edderfuglSound.play();
+                    })
+                }
+
+                if(btn.dataset.dataSound === "toad") {
+                    btn.addEventListener('click', async () => {
+                        toadSound.play();
+                    })
+
+                }
+
+            });
+
+
+        stopButtons.forEach(btn => {
+
+            if (btn.dataset.dataSound === "seal") {
+                btn.addEventListener('click', async () => {
+                    console.log("DEBUG SOUND: SEAL")
+                    sealSound.stop();
+                })
+            }
+
+            if(btn.dataset.dataSound === "bird") {
+                btn.addEventListener('click', async () => {
+                    edderfuglSound.stop();
+                })
+            }
+
+            if(btn.dataset.dataSound === "toad") {
+                btn.addEventListener('click', async () => {
+                    toadSound.stop();
+                })
+
+            }
+        });
     }
 
 
@@ -94,6 +165,77 @@ window.addEventListener("load", async () => {
 
 
 
+    }
+
+    function animateAnimalArticles() {
+        let bird = document.getElementById('edderfuglBtn');
+        let toad = document.getElementById('toadBtn');
+        let seal = document.getElementById('sealBtn');
+        let textFragments = document.querySelectorAll('.accordion__content .accordion__content');
+
+
+        let animateBird = anime({
+            targets: bird,
+            translateX: {
+                value: [10000, 0],
+                duration: 1000
+            },
+            easing: 'easeInOutExpo',
+            delay: 200
+        });
+
+        let animateToad = anime({
+            targets: toad,
+            translateX: {
+                value: [-10000, 0],
+                duration: 1000
+            },
+            easing: 'easeInOutExpo',
+            delay: 1200
+        });
+
+        let animateSeal = anime({
+            targets: seal,
+            translateX: {
+                value: [10000, 0],
+                duration: 1000
+            },
+            easing: 'easeInOutExpo',
+            delay: 2200
+        });
+
+        let buttons = document.querySelectorAll('.accordion__button');
+
+        buttons.forEach(btn => {
+            btn.addEventListener('click', async () => {
+
+            let target;
+
+            switch(btn.id) {
+                case "edderfuglBtn":
+                    target = document.getElementById('birdText');
+                    break;
+                case "toadBtn":
+                    target = document.getElementById('toadText');
+                    break;
+                case "sealBtn":
+                    target = document.getElementById('sealText');
+            }
+            console.log("DEBUG TEXT ANIMATION")
+                console.log(target.id);
+
+            let animateText = anime({
+                targets: target,
+                opacity: [0, 1],
+                scale: [0.2, 1],
+                easing: 'easeInOutExpo',
+                duration: 2000,
+                delay: 200,
+
+            })
+            });
+
+        });
     }
 
 
@@ -373,7 +515,7 @@ window.addEventListener("load", async () => {
                 let distanceTool = document.getElementById('distanceTool');
 
                 distanceTool.style.display = "flex";
-                distanceTool.innerHTML = `<p>Rute længde:  ~${Math.round(routeDistance)} meter</p>`
+                distanceTool.innerHTML = `<p>Rute længde:  ~${Math.round(routeDistance)} meter</p>`;
                 console.log("DISTANCE : " + routeDistance);
                 routeDistance = 0;
 
@@ -439,6 +581,8 @@ window.addEventListener("load", async () => {
                 checkCurrentSeason();
                 setupAccordion();// Changes current season title to season name
                 scrollTo()
+                animateAnimalArticles();
+                setupAnimalSounds();
             },
             "/bygninger" : () => {
                 makeActive('bygningerLink');

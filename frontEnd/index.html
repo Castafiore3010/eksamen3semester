@@ -41,19 +41,26 @@
 <div id="marker"></div>
 <div id="content" class="secondPart"></div>
 
+<div id="footer">
+    <p>© DeseigñoorBwois Ltd. 2021 💥</p>
+</div>
 <script></script>
 <script>
 
+    let footer = document.getElementById('footer')
     let toTopBtn = document.getElementById('toTopBtn');
 
     // When the user scrolls down 20px from the top of the document, show the button
     window.onscroll = function() {scrollFunction()};
 
     function scrollFunction() {
+
         if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
             toTopBtn.style.display = "block";
+            footer.style.display ="block"
         } else {
             toTopBtn.style.display = "none";
+            footer.style.display = "none";
         }
     }
 
@@ -80,6 +87,7 @@
         text.style.marginTop = value + 'px';
         btn.style.marginTop = value * 2 + 'px';
         header.style.top = value * 0.5 + 'px';
+        footer.style.right = 2 * value  + 'px'
     })
     async function loadTemplate(page) {
         const resHtml = await fetch(page).then(r => {
