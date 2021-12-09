@@ -101,20 +101,34 @@ window.addEventListener("load", async () => {
 
 
 
+    // FETCH FUNCTIONS
 
 
-    const allPins = [];
+
     async function fetchAllPins () {
+        let array = []
         let response = await fetch("http://localhost:7777/pins");
         let responseData = await response.json()
 
         responseData.forEach(pin => {
-            allPins.push(pin);
+            array.push(pin);
         })
-
+        return array;
     }
-    await fetchAllPins();
-    console.log(allPins);
+
+    async function fetchAllTours () {
+        let array = []
+        let response = await fetch("http://localhost:7777/tours");
+        let responseData = await response.json()
+
+        responseData.forEach(tour => {
+            array.push(tour)
+        })
+        return array;
+    }
+
+
+
 
 
     // ANIMATIONS
@@ -535,7 +549,16 @@ window.addEventListener("load", async () => {
 
 
 
+    // ENTITY LOAD
+    const allPins = await fetchAllPins();
+    const allTours = await fetchAllTours();
+    console.log(allPins);
+    console.log(allTours);
 
+
+
+
+    // TEMPLATE LOAD
     const templateEmpty = await loadTemplate("templates/emptyTemplate.html")
     const templateHome = await loadTemplate("templates/home.html");
     const templateTours = await loadTemplate("templates/tours.html");

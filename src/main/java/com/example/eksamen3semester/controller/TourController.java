@@ -16,6 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/tours")
+@CrossOrigin(origins = "http://localhost:63342")
 public class TourController {
 
     TourRepository tourRepository;
