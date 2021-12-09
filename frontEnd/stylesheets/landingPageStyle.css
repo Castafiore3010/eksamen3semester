@@ -24,6 +24,7 @@ header {
     align-items: center;
     z-index: 10000;
 
+
 }
 header .logo {
     color: #fff;
@@ -46,8 +47,9 @@ header ul li {
 header ul li a {
     text-decoration: none;
     padding: 6px 15px;
-    color : #fff;
+    color : #000;
     border-radius: 20px;
+    font-weight: bold;
 }
  header ul li a:hover,
  header ul li a.active{
@@ -291,5 +293,61 @@ section img#land {
 }
 
 
+.accordion__button {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    background: #333333;
+    color: #ffffff;
+    text-align: left;
+    transition: background 0.2s;
+    font-size: 1.5em;
+}
+
+.accordion__button::after {
+    content:'\25be';
+    float: right;
+    transform: scale(1.5);
+}
+.accordion__button--activeAccordion + .accordion__content {display: block}
+.accordion__button--activeAccordion {
+    background: #555555;
+}
+.accordion__button--activeAccordion::after {content: '\25b4'}
+
+.accordion__content {
+    /*
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.2s;
+     */
+    padding: 4px 16px;
+    background: #fff;
+    display: none;
+    overflow: auto;
+}
+.accordion__content p {
+    color: #000000;
+}
+.accordion__content h1 {
+    text-align: center;
+}
+.accordion__content h4, h5 {
+    font-size: 1.2em;
+    color: #000000;
+    font-weight: bold;
+    padding: 4px 0;
+}
+.accordion__content .portraitFrame {
+    position: relative;
+    width: 100%;
+    text-align: center;
 
 
+}
+
+.accordion__content .portraitFrame .portraitImage img {
+}

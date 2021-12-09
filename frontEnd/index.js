@@ -18,6 +18,17 @@ window.addEventListener("load", async () => {
 
 
 
+    function setupAccordion() {
+        document.querySelectorAll('.accordion__button').forEach(button => {
+            button.addEventListener('click', () => {
+                //const accordionContent = button.nextElementSibling;
+                button.classList.toggle('accordion__button--activeAccordion');
+
+            })
+        })
+    }
+
+
 
 
 
@@ -420,7 +431,8 @@ window.addEventListener("load", async () => {
             "/dyr" : () => {
                 makeActive('dyrLink');
                 renderTemplate(templateDyr, "content");
-                checkCurrentSeason(); // Changes current season title to season name
+                checkCurrentSeason();
+                setupAccordion();// Changes current season title to season name
                 scrollTo()
             },
             "/bygninger" : () => {
