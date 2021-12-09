@@ -325,21 +325,24 @@ section img#land {
     transition: max-height 0.2s;
      */
     padding: 4px 16px;
-    background: #fff;
+    background: #f2d58e;
     display: none;
     overflow: auto;
 }
 .accordion__content p {
     color: #000000;
+    margin-left: 12px;
+    margin-right: 12px;
 }
 .accordion__content h1 {
     text-align: center;
 }
 .accordion__content h4, h5 {
-    font-size: 1.2em;
+    font-size: 1.25em;
     color: #000000;
     font-weight: bold;
     padding: 4px 0;
+    margin: 2px 12px
 }
 .accordion__content .portraitFrame {
     position: relative;
