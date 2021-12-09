@@ -573,6 +573,11 @@ window.addEventListener("load", async () => {
                 animateMap();
                 animateBtnRotate();
                 setUpChange();
+                if (match.params && match.params.tourId) {
+                    console.log("DEBUG MATCH PARAMS");
+                    document.getElementById('millersHouseCheckBox').click();
+
+                }
 
             },
             "/dyr" : () => {
