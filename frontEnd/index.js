@@ -296,7 +296,12 @@ window.addEventListener("load", async () => {
 
             if (document.getElementById('millersHouseCheckBox').checked === true) {
 
-                allPins.forEach(pin => {
+                allPins.filter(pin => {
+                    if (pin.tours[0] != null){
+                        return (pin.tours[0] === 1 || pin.tours[0].tourId === 1)
+                    }
+                })
+                    .forEach(pin => {
                     let newMarker = L.marker([pin.latitude, pin.longitude]).addTo(map)
                     newMarker.bindPopup(`${pin.description}`);
                     if (pin.mediaLinks.length > 0) {

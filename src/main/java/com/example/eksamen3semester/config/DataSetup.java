@@ -95,6 +95,15 @@ public class DataSetup implements CommandLineRunner {
 
 
 
+        Pin frog = new Pin(null,55.319360,15.189781,"Frø lokation 1","Frø");
+        Pin seal = new Pin(null,55.31895,15.19147 ,"Sæl lokation 1","Sæl");
+        Pin fugl = new Pin(null,55.31765,15.18865,"Fugle lokation 1","Fugl");
+
+        //Dyr
+        pinRepository.save(fugl);
+        pinRepository.save(seal);
+        pinRepository.save(frog);
+
     }
 
 
