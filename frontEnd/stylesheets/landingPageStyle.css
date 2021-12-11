@@ -39,6 +39,9 @@ body {
 
 
 }
+.sidebar a:hover {
+    color: #f2d58e;
+}
 .sidebar .closeSidebarBtn {
     position: absolute;
     top: 0;
