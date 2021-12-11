@@ -19,7 +19,17 @@
 </head>
 <body>
 <header>
-    <a href="#" class="logo">CHRISTIANSØ</a>
+
+    <div id="sidebar" class="sidebar">
+        <a href="javascript:void(0)" class="closeSidebarBtn" onclick="closeNav()">×</a>
+        <a href="">Tilføj ny pin</a>
+        <a href="">Redigér pin</a>
+        <a href="">Tilføj ny tour</a>
+        <a href="">Redigér tour</a>
+    </div>
+
+
+    <button class="openSidebarBtn" onclick="openNav()">☰ God Mode</button>
     <ul>
         <li><a href="/" class="active" id="homeLink" data-navigo>Home</a></li>
         <li><a href="#">Tours</a></li>
@@ -28,6 +38,10 @@
         <li><a href="/bygninger" id="bygningerLink" data-navigo>Bygninger</a></li>
         <li><a href="/spil" id="spilLink" data-navigo>Spil</a></li>
     </ul>
+
+    <a href="#" class="logo">CHRISTIANSØ</a>
+
+
 </header>
 <section>
     <img src="./images/cloud.png" id="cloud1">
@@ -46,6 +60,15 @@
 </div>
 <script></script>
 <script>
+
+    function openNav() {
+
+        document.getElementById('sidebar').style.width = "260px";
+    }
+
+    function closeNav() {
+        document.getElementById('sidebar').style.width = "0";
+    }
 
     let footer = document.getElementById('footer')
     let toTopBtn = document.getElementById('toTopBtn');

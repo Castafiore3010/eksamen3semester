@@ -13,6 +13,51 @@ body {
     background: linear-gradient(#1086e0,#e38c12);
 
 }
+
+
+.sidebar {
+    height: 25%;
+    width: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #555555;
+    overflow-x: hidden;
+    transition: 0.2s;
+    padding-top: 60px;
+
+}
+
+.sidebar a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #e38c12;
+    display: block;
+    transition: 0.0s;
+
+
+}
+.sidebar .closeSidebarBtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+
+}
+
+.openSidebarBtn {
+    font-size: 20px;
+    cursor: pointer;
+    background-color: #555555;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+
+}
+
+
 #footer {
     display: none;
     outline: none;
