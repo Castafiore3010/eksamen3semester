@@ -593,6 +593,7 @@ window.addEventListener("load", async () => {
     const templateDyr = await loadTemplate("templates/dyrTemplate.html")
     const templateBygninger = await loadTemplate("templates/bygningerTemplate.html")
     const templateSpil = await loadTemplate("templates/spilTemplate.html")
+    const templateCreatePin = await loadTemplate("templates/pinForm.html")
 
     const router = new Navigo("/", {hash : true});
 
@@ -658,6 +659,11 @@ window.addEventListener("load", async () => {
                 makeActive('spilLink');
                 renderTemplate(templateSpil, "content")
                 startSpil();
+            },
+            "/createPin" : (match) => {
+                renderTemplate(templateCreatePin, "content");
+                scrollTo();
+
             }
 
         })
