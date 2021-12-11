@@ -21,7 +21,7 @@
 <header>
 
     <div id="sidebar" class="sidebar">
-        <a href="javascript:void(0)" class="closeSidebarBtn" onclick="closeNav()">×</a>
+        <a href="javascript:void(0)" class="closeSidebarBtn" id="closeSidebarBtn">×</a>
         <a href="">Tilføj ny pin</a>
         <a href="">Redigér pin</a>
         <a href="">Tilføj ny tour</a>
@@ -29,7 +29,7 @@
     </div>
 
 
-    <button class="openSidebarBtn" onclick="openNav()">☰ God Mode</button>
+    <button class="openSidebarBtn" id="openSidebarBtn">☰ God Mode</button>
     <ul>
         <li><a href="/" class="active" id="homeLink" data-navigo>Home</a></li>
         <li><a href="#">Tours</a></li>
@@ -61,14 +61,7 @@
 <script></script>
 <script>
 
-    function openNav() {
 
-        document.getElementById('sidebar').style.width = "260px";
-    }
-
-    function closeNav() {
-        document.getElementById('sidebar').style.width = "0";
-    }
 
     let footer = document.getElementById('footer')
     let toTopBtn = document.getElementById('toTopBtn');

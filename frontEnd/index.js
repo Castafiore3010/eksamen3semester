@@ -17,6 +17,31 @@ import {startSpil} from "./spil.js";
 window.addEventListener("load", async () => {
 
 
+    function openNav() {
+
+        document.getElementById('openSidebarBtn').onclick = async () => {
+            document.getElementById('sidebar').style.transition = "0.5s"
+            document.getElementById('sidebar').style.overflow = "hidden";
+            document.getElementById('sidebar').style.width = "260px";
+            document.querySelectorAll('.sidebar a').forEach(link => {
+            let animation = anime({
+                targets: link,
+                opacity: [0, 1],
+                delay : 500,
+                easing: 'linear'
+            })
+        })
+        }
+    }
+
+    function closeNav() {
+        document.getElementById('closeSidebarBtn').onclick = async () => {
+            document.getElementById('sidebar').style.transition = "0.0s";
+            document.getElementById('sidebar').style.width = "0";
+        }
+
+    }
+
 
     function setupAccordion() {
         document.querySelectorAll('.accordion__button').forEach(button => {
@@ -577,6 +602,8 @@ window.addEventListener("load", async () => {
             "/": () => {
                 makeActive('homeLink');
                 renderTemplate(templateEmpty, "content");
+                openNav();
+                closeNav();
                 },
             "/tours" : () => {
                 renderTemplate(templateTours, "content");
