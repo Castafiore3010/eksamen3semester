@@ -1,21 +1,74 @@
-import "https://unpkg.com/navigo"  //Will create the global Navigo object used below
+import "https://unpkg.com/navigo" //Will create the global Navigo object used below
 import anime from '../node_modules/animejs/lib/anime.es.js';
 //const anime = require('animejs');
-
-import {
-    checkCurrentSeason, changeSeasonView
-} from "./dyrJS.js"
-import {
-    renderText, adjustForMissingHash, loadTemplate, renderTemplate,
-} from "../utils.js"
-
-import {setActiveLink} from "../utils.js";
+import {checkCurrentSeason} from "./dyrJS.js"
+import {adjustForMissingHash, loadTemplate, renderTemplate, renderText,} from "../utils.js"
 import {startSpil} from "./spil.js";
-
 
 
 window.addEventListener("load", async () => {
 
+    async function getOneTour(id) {
+        let response = await fetch("http://localhost:7777/tours/"+id);
+        let responseData = await response.json();
+        return responseData;
+    }
+
+    async function createPin() {
+
+        let pin = {};
+        pin.pinId = null;
+        pin.latitude = Number(document.getElementById('latitudeCreatePin').value);
+        pin.longitude = Number(document.getElementById('longitudeCreatePin').value);
+        pin.description = document.getElementById('descriptionCreatePin').value;
+        pin.title = document.getElementById('titleCreatePin').value;
+        console.log("TITEL : " + pin.title);
+        pin.tours = [];
+        //console.log(document.getElementById('toursCreatePin').dataset.dataNum.value);
+        console.log(Number(document.getElementById('toursCreatePin').value.substring(0,1)))
+        if (Number(document.getElementById('toursCreatePin').value.substring(0,1)) !== 0) {
+            let tour = await getOneTour(Number(document.getElementById('toursCreatePin').value.substring(0, 1)));
+            console.log(tour);
+            let shortTour = {"tourId" : tour.tourId};
+            pin.tours.push(shortTour);
+        }
+        console.log(pin);
+
+        let options = makeOptions("POST", pin);
+
+        let response = await fetch("http://localhost:7777/pins", options);
+        let responseData = await response.json();
+        allPins.push(pin);
+        console.log(responseData);
+    }
+
+    function setUpSelectInputs() {
+        let tour1 = allTours[0];
+        console.log(tour1);
+        let selectTours = allTours.map(tour => `<option data-data-optNum="${tour.tourId}">${tour.tourId} : ${tour.description}</option>`).join("");
+        console.log("selectTours")
+        console.log(selectTours);
+        document.getElementById('toursCreatePin').onclick = () => {
+            document.getElementById('toursCreatePin').innerHTML = selectTours;
+        }
+
+    }
+
+    function setUpCreatePinForm() {
+        document.getElementById('createPinBtn').onclick = (evt) => {
+            evt.stopPropagation();
+            evt.preventDefault();
+            createPin();
+
+        }
+
+        document.getElementById('resetForm').onclick = (evt) => {
+            evt.preventDefault();
+            evt.stopPropagation();
+            document.getElementById('createPinForm').reset();
+            document.getElementById('toursCreatePin').innerHTML = "";
+        }
+    }
 
     function openNav() {
 
@@ -416,154 +469,153 @@ window.addEventListener("load", async () => {
             tileSize: 512,
             zoomOffset: -1
         }).addTo(map);
+
         //map.scrollWheelZoom.disable();
-
-
-
 
 
         function mapclick(e) {
             console.log("coords : " + e.latlng);
-            console.log(e);
+            if (document.getElementById('latitudeCreatePin') !== null) {
+                console.log(e)
+                document.getElementById('latitudeCreatePin').value = e.latlng.lat
+                document.getElementById('longitudeCreatePin').value = e.latlng.lng;
+            }
         }
+
         function setupMapClick() {
             map.on('click', mapclick)
 
         }
+
         setupMapClick();
-
-
 
 
         let marker;
         let churchMarkers = [];
-        document.getElementById('churchCheckBox').onclick = async (evt) => {
 
-            let churchPins = allPins.filter(pin => pin.title == "Kirke");
+        if (document.getElementById('churchCheckBox') !== null) {
+            document.getElementById('churchCheckBox').onclick = async (evt) => {
 
-            let icon = L.icon({
-                iconUrl: './images/church2.png',
-                iconSize: [48,48],
+                let churchPins = allPins.filter(pin => pin.title == "Kirke");
 
-            })
+                let icon = L.icon({
+                    iconUrl: './images/church2.png',
+                    iconSize: [48, 48],
 
-            if (document.getElementById('churchCheckBox').checked === true) {
-                churchPins.forEach(pin => {
-                    marker = L.marker([pin.latitude, pin.longitude], {icon : icon, title: `${pin.title}`}).addTo(map);
-                    marker.bindPopup(`${pin.description}`);
-                    churchMarkers.push(marker);
                 })
 
-
-            } else {
-                churchMarkers.forEach(marker => {
-                    map.removeLayer(marker);
-                })
-                churchMarkers = [];
-
-            }
-
-
-        }
+                if (document.getElementById('churchCheckBox').checked === true) {
+                    churchPins.forEach(pin => {
+                        marker = L.marker([pin.latitude, pin.longitude], {
+                            icon: icon,
+                            title: `${pin.title}`
+                        }).addTo(map);
+                        marker.bindPopup(`${pin.description}`);
+                        churchMarkers.push(marker);
+                    })
 
 
-        let localMarkers = [];
-        let localRoute = [];
-        let polyLines = [];
-        let routeDistance = 0;
-        let loopCounter = 0;
-        document.getElementById('tour1Checkbox').onclick = async () => {
-
-
-
-
-            if (document.getElementById('tour1Checkbox').checked === true) {
-
-                allPins.filter(pin => {
-                    if (pin.tours[0] != null){
-                        return (pin.tours[0] === 1 || pin.tours[0].tourId === 1)
-                    }
-                })
-                    .forEach(pin => {
-                    let newMarker = L.marker([pin.latitude, pin.longitude]).addTo(map)
-                    newMarker.bindPopup(`${pin.description}`);
-                    if (pin.mediaLinks.length > 0) {
-                        let customPopup = L.popup({
-                            maxWidth: 560,
-                            className: "popup"
-                        })
-                            .setLatLng([pin.latitude, pin.longitude])
-                            .setContent(`<h4>${pin.title}</h4><br><br>${pin.description}<br><br>${pin.mediaLinks[0].mediaLink}`)
-                        console.log(pin.mediaLinks);
-                        newMarker.bindPopup(customPopup);
-
-                    }
-                    let coords = newMarker.getLatLng();
-                    localRoute.push([coords.lat, coords.lng]);
-                    console.log("NUM OF COORDS : " + localRoute.length);
-
-                    localMarkers.push(newMarker);
-                    console.log("NUM OF MARKERS : " + localMarkers.length);
-                    });
-
-
-
-                console.log(localRoute);
-
-
-                /*
-
-               let routing =  L.Routing.control({
-                    waypoints: [
-                        [55.7034201, 12.5823192],
-                        [55.38417, 10.30924]
-
-
-                    ],
-                    routeWhileDragging: true
-                }).addTo(map);
-
-
-
-
-                 */
-
-
-
-                if (polyLines.length < 1) {
-                    let newPolyLine = L.polyline(localRoute, {color : '#e38c12'}).addTo(map);
-                    polyLines.push(newPolyLine);
                 } else {
-                    polyLines[0].addTo(map);
+                    churchMarkers.forEach(marker => {
+                        map.removeLayer(marker);
+                    })
+                    churchMarkers = [];
 
                 }
 
 
+            }
+
+
+            let localMarkers = [];
+            let localRoute = [];
+            let polyLines = [];
+            let routeDistance = 0;
+            let loopCounter = 0;
+            document.getElementById('tour1Checkbox').onclick = async () => {
+
+                let allPins = await fetchAllPins();
+
+                if (document.getElementById('tour1Checkbox').checked === true) {
+
+                    allPins.filter(pin => {
+                        if (pin.tours[0] != null) {
+                            return (pin.tours[0] === 1 || pin.tours[0].tourId === 1)
+                        }
+                    })
+                        .forEach(pin => {
+                            let newMarker = L.marker([pin.latitude, pin.longitude]).addTo(map)
+                            newMarker.bindPopup(`${pin.description}`);
+                            if (pin.mediaLinks.length > 0) {
+                                let customPopup = L.popup({
+                                    maxWidth: 560,
+                                    className: "popup"
+                                })
+                                    .setLatLng([pin.latitude, pin.longitude])
+                                    .setContent(`<h4>${pin.title}</h4><br><br>${pin.description}<br><br>${pin.mediaLinks[0].mediaLink}`)
+                                console.log(pin.mediaLinks);
+                                newMarker.bindPopup(customPopup);
+
+                            }
+                            let coords = newMarker.getLatLng();
+                            localRoute.push([coords.lat, coords.lng]);
+                            console.log("NUM OF COORDS : " + localRoute.length);
+
+                            localMarkers.push(newMarker);
+                            console.log("NUM OF MARKERS : " + localMarkers.length);
+                        });
+
+
+                    console.log(localRoute);
+
+
+                    /*
+
+                   let routing =  L.Routing.control({
+                        waypoints: [
+                            [55.7034201, 12.5823192],
+                            [55.38417, 10.30924]
+
+
+                        ],
+                        routeWhileDragging: true
+                    }).addTo(map);
 
 
 
-                for (let i = 0; i <= localRoute.length - 2; i++) {
+
+                     */
+
+
+                    if (polyLines.length < 1) {
+                        let newPolyLine = L.polyline(localRoute, {color: '#e38c12'}).addTo(map);
+                        polyLines.push(newPolyLine);
+                    } else {
+                        polyLines[0].addTo(map);
+
+                    }
+
+
+                    for (let i = 0; i <= localRoute.length - 2; i++) {
 
                         let latlng = L.latLng(localRoute[i][0], localRoute[i][1]);
-                        let next = L.latLng(localRoute[i+1][0], localRoute[i+1][1])
+                        let next = L.latLng(localRoute[i + 1][0], localRoute[i + 1][1])
                         let distance = latlng.distanceTo(next);
                         console.log(distance);
                         routeDistance += distance;
 
-                }
-                loopCounter++;
+                    }
+                    loopCounter++;
 
-                let distanceTool = document.getElementById('distanceTool');
+                    let distanceTool = document.getElementById('distanceTool');
 
-                distanceTool.style.display = "flex";
-                distanceTool.innerHTML = `<p>Rute længde:  ~${Math.round(routeDistance)} meter</p>`;
-                console.log("DISTANCE : " + routeDistance);
-                routeDistance = 0;
+                    distanceTool.style.display = "flex";
+                    distanceTool.innerHTML = `<p>Rute længde:  ~${Math.round(routeDistance)} meter</p>`;
+                    console.log("DISTANCE : " + routeDistance);
+                    routeDistance = 0;
 
 
-
-            }
-                else {
+                } else {
                     localMarkers.forEach(marker => map.removeLayer(marker));
                     polyLines.forEach(line => map.removeLayer(line));
                     document.getElementById('distanceTool').style.display = "none";
@@ -573,6 +625,7 @@ window.addEventListener("load", async () => {
                 localRoute = [];
             }
         }
+    }
 
 
 
@@ -663,6 +716,10 @@ window.addEventListener("load", async () => {
             "/createPin" : (match) => {
                 renderTemplate(templateCreatePin, "content");
                 scrollTo();
+                setUpCreatePinForm();
+                setUpSelectInputs();
+                test();
+
 
             }
 

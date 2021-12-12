@@ -447,7 +447,7 @@ hr {
     box-sizing: border-box;
     box-shadow: 0 15px 25px rgba(0,0,0,.6);
     border-radius: 10px;
-    margin-top: 20%;
+    margin-top: 35%;
     margin-left: 50%;
 }
 
@@ -461,7 +461,43 @@ hr {
 .login-box .user-box {
     position: relative;
 }
+.login-box .user-box select {
+    width: 50%;
+    padding: 10px 0;
+    font-size: 16px;
+    color: #fff;
+    margin-bottom: 30px;
+    margin-left: 30px;
+    border: none;
+    border-bottom: 1px solid #fff;
+    outline: none;
+    background: transparent;
+    overflow-x: hidden;
 
+
+}
+
+option {
+    cursor: pointer;
+    margin-top: 5%;
+    background: #555555;
+    color: #fff;
+}
+
+
+.login-box .user-box textarea {
+    width: 50%;
+    resize: none;
+    padding: 10px 0;
+    font-size: 16px;
+    color: #fff;
+    margin-bottom: 30px;
+    margin-left: 30px;
+    border: none;
+    border-bottom: 1px solid #fff;
+    outline: none;
+    background: transparent;
+}
 .login-box .user-box input {
     width: 50%;
     padding: 10px 0;
@@ -490,15 +526,29 @@ hr {
 .login-box .user-box input:valid ~ label {
     top: -20px;
     left: 0;
-    color: #1086e0;
+    color: #e38c12;
+    font-size: 12px;
+}
+.login-box .user-box textarea:focus ~ label,
+.login-box .user-box textarea:valid ~ label {
+    top: -20px;
+    left: 0;
+    color: #e38c12;
     font-size: 12px;
 }
 
-.login-box form a {
+.login-box .user-box select:focus ~ label,
+.login-box .user-box select:valid ~ label {
+    top: -20px;
+    left: 0;
+    color: #e38c12;
+    font-size: 12px;
+}
+.login-box form #resetForm {
     position: relative;
     display: inline-block;
     padding: 10px 20px;
-    color: #1086e0;
+    color: crimson;
     font-size: 16px;
     text-decoration: none;
     text-transform: uppercase;
@@ -509,17 +559,46 @@ hr {
     letter-spacing: 4px
 }
 
-.login-box a:hover {
-    background: #1086e0;
+.login-box form a {
+    position: relative;
+    display: inline-block;
+    padding: 10px 20px;
+    color: #00e676;
+    font-size: 16px;
+    text-decoration: none;
+    text-transform: uppercase;
+    overflow: hidden;
+    transition: .5s;
+    margin-top: 40px;
+    margin-left: 30px;
+    letter-spacing: 4px
+}
+.login-box #resetForm:hover {
+    background: crimson;
     color: #fff;
     border-radius: 5px;
-    box-shadow: 0 0 5px #1086e0,
-    0 0 25px #1086e0,
-    0 0 50px #1086e0,
-    0 0 100px #1086e0;
+    box-shadow: 0 0 5px crimson,
+    0 0 25px crimson,
+    0 0 50px crimson,
+    0 0 100px crimson;
+}
+
+.login-box a:hover {
+    background: #00e676;
+    color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 5px #00e676,
+    0 0 25px #00e676,
+    0 0 50px #00e676,
+    0 0 100px #00e676;
 }
 
 .login-box a span {
+    position: absolute;
+    display: block;
+}
+
+.login-box #resetForm span {
     position: absolute;
     display: block;
 }
@@ -529,7 +608,16 @@ hr {
     left: -100%;
     width: 100%;
     height: 2px;
-    background: linear-gradient(90deg, transparent, #1086e0);
+    background: linear-gradient(90deg, transparent, #00e676);
+    animation: btn-anim1 1s linear infinite;
+}
+
+.login-box #resetForm span:nth-child(1) {
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, crimson);
     animation: btn-anim1 1s linear infinite;
 }
 
@@ -547,7 +635,17 @@ hr {
     right: 0;
     width: 2px;
     height: 100%;
-    background: linear-gradient(180deg, transparent, #1086e0);
+    background: linear-gradient(180deg, transparent, #00e676);
+    animation: btn-anim2 1s linear infinite;
+    animation-delay: .25s
+}
+
+.login-box #resetForm span:nth-child(2) {
+    top: -100%;
+    right: 0;
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(180deg, transparent, crimson);
     animation: btn-anim2 1s linear infinite;
     animation-delay: .25s
 }
@@ -566,7 +664,16 @@ hr {
     right: -100%;
     width: 100%;
     height: 2px;
-    background: linear-gradient(270deg, transparent, #1086e0);
+    background: linear-gradient(270deg, transparent, #00e676);
+    animation: btn-anim3 1s linear infinite;
+    animation-delay: .5s
+}
+.login-box #resetForm span:nth-child(3) {
+    bottom: 0;
+    right: -100%;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(270deg, transparent, crimson);
     animation: btn-anim3 1s linear infinite;
     animation-delay: .5s
 }
@@ -585,7 +692,17 @@ hr {
     left: 0;
     width: 2px;
     height: 100%;
-    background: linear-gradient(360deg, transparent, #1086e0);
+    background: linear-gradient(360deg, transparent, #00e676);
+    animation: btn-anim4 1s linear infinite;
+    animation-delay: .75s
+}
+
+.login-box #resetForm span:nth-child(4) {
+    bottom: -100%;
+    left: 0;
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(360deg, transparent, crimson);
     animation: btn-anim4 1s linear infinite;
     animation-delay: .75s
 }

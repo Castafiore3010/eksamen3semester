@@ -1,31 +1,44 @@
 <template>
     <div class="login-box">
         <h2>Tilføj Pin</h2>
-        <form>
+        <form id="createPinForm">
             <div class="user-box">
-                <input type="text" name="" required="">
+                <input type="text" name="" required="" id="latitudeCreatePin">
                 <label>Latitude</label>
             </div>
             <div class="user-box">
-                <input type="text" name="" required="">
+                <input type="text" name="" required="" id="longitudeCreatePin">
                 <label>Longitude</label>
             </div>
             <div class="user-box">
-                <input type="text" name="" required="">
+                <textarea  name="" required="" id="descriptionCreatePin" rows="1" cols="50"></textarea>
                 <label>Beskrivelse</label>
             </div>
             <div class="user-box">
-                <input type="text" name="" required="">
+                <input type="text" name="" required="" id="titleCreatePin">
                 <label>Titel</label>
             </div>
-            <a href="#">
+            <div class="user-box">
+                <select name="" required="" id="toursCreatePin" form="createPinForm">
+                </select>
+                <label>Tours</label>
+            </div>
+            <a href="" id="createPinBtn">
                 <span></span>
                 <span></span>
                 <span></span>
                 <span></span>
                 Opret Pin
             </a>
+            <a href="" id="resetForm">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                Ryd
+            </a>
         </form>
+        <div id="Lmap" class="secondPart" style="height: 500px;"></div>
     </div>
 </template>
 

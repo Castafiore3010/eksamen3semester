@@ -53,18 +53,20 @@ public class PinController {
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Pin> insertOne(@RequestBody Pin pin) {
 
-        Pin managedPin = new Pin(pin.getPinId(), pin.getLatitude(), pin.getLongitude(), pin.getDescription());
+        Pin managedPin = new Pin(pin.getPinId(), pin.getLatitude(), pin.getLongitude(), pin.getDescription(), pin.getTitle());
 
 
         // handle tours
         List<Long> matchingTourIds = new ArrayList<>();
         List<Tour> newToursToCreate = new ArrayList<>();
-        pin.getTours().forEach(tour -> matchingTourIds.add(tour.getTourId())); // Add Ids from received JSON tours [{}]
-        pin.getTours().forEach(tour -> {
-            if (tour.getTourId() == null) {
-                newToursToCreate.add(tour);
-            }
-        });
+        if (pin.getTours() != null) {
+            pin.getTours().forEach(tour -> matchingTourIds.add(tour.getTourId())); // Add Ids from received JSON tours [{}]
+            pin.getTours().forEach(tour -> {
+                if (tour.getTourId() == null) {
+                    newToursToCreate.add(tour);
+                }
+            });
+        }
         List<Tour> newlyAddedTours = tourRepository.saveAll(newToursToCreate); // save all new entities in db
         List<Tour> matchingTours = tourRepository.findAllById(matchingTourIds); // find all matching in db
         matchingTours.addAll(newlyAddedTours); // add new to matching
@@ -73,12 +75,14 @@ public class PinController {
         // handle media
         List<Long> matchingMediaIds = new ArrayList<>();
         List<MediaLink> newMediaLinksToCreate = new ArrayList<>();
-        pin.getMediaLinks().forEach(tour -> matchingMediaIds.add(tour.getMediaLinkId())); // Add Ids from received JSON mediaLinks [{}]
-        pin.getMediaLinks().forEach(mediaLink -> {
-            if (mediaLink.getMediaLinkId() == null) {
-                newMediaLinksToCreate.add(mediaLink);
-            }
-        });
+        if(pin.getMediaLinks() != null) {
+            pin.getMediaLinks().forEach(tour -> matchingMediaIds.add(tour.getMediaLinkId())); // Add Ids from received JSON mediaLinks [{}]
+            pin.getMediaLinks().forEach(mediaLink -> {
+                if (mediaLink.getMediaLinkId() == null) {
+                    newMediaLinksToCreate.add(mediaLink);
+                }
+            });
+        }
         List<MediaLink> newlyAddedMediaLinks = mediaLinkRepository.saveAll(newMediaLinksToCreate); // save all new entities
         List<MediaLink> matchingLinks = mediaLinkRepository.findAllById(matchingMediaIds); // find all matching
         matchingLinks.addAll(newlyAddedMediaLinks); // concat
