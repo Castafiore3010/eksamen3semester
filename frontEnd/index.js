@@ -24,6 +24,7 @@ window.addEventListener("load", async () => {
         pin.title = document.getElementById('titleCreatePin').value;
         console.log("TITEL : " + pin.title);
         pin.tours = [];
+        pin.mediaLinks = [];
         //console.log(document.getElementById('toursCreatePin').dataset.dataNum.value);
         console.log(Number(document.getElementById('toursCreatePin').value.substring(0,1)))
         if (Number(document.getElementById('toursCreatePin').value.substring(0,1)) !== 0) {
@@ -55,6 +56,12 @@ window.addEventListener("load", async () => {
     }
 
     function setUpCreatePinForm() {
+
+
+        let target = document.getElementById('createForm1');
+        console.log(target.offsetWidth)
+        console.log(target.offsetLeft);
+
         document.getElementById('createPinBtn').onclick = (evt) => {
             evt.stopPropagation();
             evt.preventDefault();
@@ -68,6 +75,32 @@ window.addEventListener("load", async () => {
             document.getElementById('createPinForm').reset();
             document.getElementById('toursCreatePin').innerHTML = "";
         }
+    }
+
+    function animateCreateForm() {
+        let target = document.getElementById('createForm1');
+        console.log(target.offsetWidth)
+        console.log(target.offsetLeft);
+
+        let animation = anime({
+            targets: target,
+            translateX: {
+                value: 0,
+                duration: 0,
+                delay: 0,
+
+            },
+            opacity : {
+                value: [0, 1],
+                duration: 3500,
+                delay: 200
+            },
+
+            easing: 'easeInOutExpo'
+        })
+
+        console.log(target.offsetWidth)
+        console.log(target.offsetLeft);
     }
 
     function openNav() {
@@ -534,7 +567,7 @@ window.addEventListener("load", async () => {
             let loopCounter = 0;
             document.getElementById('tour1Checkbox').onclick = async () => {
 
-                let allPins = await fetchAllPins();
+                //let allPins = await fetchAllPins();
 
                 if (document.getElementById('tour1Checkbox').checked === true) {
 
@@ -719,6 +752,7 @@ window.addEventListener("load", async () => {
                 setUpCreatePinForm();
                 setUpSelectInputs();
                 test();
+                animateCreateForm();
 
 
             }

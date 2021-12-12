@@ -293,6 +293,7 @@ section img#land {
     margin-bottom: 50px;
     border: 2px solid #000000;
     text-align: center;
+    background-color: #555555;
 
 
 
@@ -310,6 +311,7 @@ section img#land {
     display: block;
     border: 2px dotted crimson;
     font-size: 150%;
+    color: #e38c12;
 
 }
 .toolbox .panel {
@@ -329,9 +331,9 @@ section img#land {
 .toolbox .checkBoxTitleHeader {
     width: 400px;
     height: 24px;
-
     text-align: center;
     border: 1px dotted black;
+    color : #e38c12;
 }
 
 .toolbox .checkBoxPanel .underBox {
@@ -442,13 +444,13 @@ hr {
 }
 
 .login-box {
+    width: 75%;
     transform: translate(-50%, -50%);
     background: rgba(0,0,0,.8);
     box-sizing: border-box;
     box-shadow: 0 15px 25px rgba(0,0,0,.6);
     border-radius: 10px;
-    margin-top: 35%;
-    margin-left: 50%;
+
 }
 
 .login-box h2 {
@@ -462,7 +464,7 @@ hr {
     position: relative;
 }
 .login-box .user-box select {
-    width: 50%;
+    width: 75%;
     padding: 10px 0;
     font-size: 16px;
     color: #fff;
@@ -486,7 +488,7 @@ option {
 
 
 .login-box .user-box textarea {
-    width: 50%;
+    width: 75%;
     resize: none;
     padding: 10px 0;
     font-size: 16px;
@@ -499,7 +501,7 @@ option {
     background: transparent;
 }
 .login-box .user-box input {
-    width: 50%;
+    width: 75%;
     padding: 10px 0;
     font-size: 16px;
     color: #fff;
@@ -554,8 +556,9 @@ option {
     text-transform: uppercase;
     overflow: hidden;
     transition: .5s;
-    margin-top: 40px;
+    margin-top: 4px;
     margin-left: 30px;
+    margin-bottom: 12px;
     letter-spacing: 4px
 }
 
@@ -569,8 +572,9 @@ option {
     text-transform: uppercase;
     overflow: hidden;
     transition: .5s;
-    margin-top: 40px;
+    margin-top: 4px;
     margin-left: 30px;
+    margin-bottom: 12px;
     letter-spacing: 4px
 }
 .login-box #resetForm:hover {
