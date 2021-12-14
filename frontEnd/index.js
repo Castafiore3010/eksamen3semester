@@ -8,6 +8,7 @@ import {startSpil} from "./spil.js";
 
 window.addEventListener("load", async () => {
 
+
     async function getOneTour(id) {
         let response = await fetch("http://localhost:7777/tours/"+id);
         let responseData = await response.json();
@@ -43,15 +44,66 @@ window.addEventListener("load", async () => {
         console.log(responseData);
     }
 
+    function setUpSelectInputs2() {
+        let mappedPins = allPins.map(pin => `<option>${pin.pinId} : ${pin.title}</option>`).join("");
+
+        document.getElementById('idUpdatePin').innerHTML = mappedPins;
+
+        document.getElementById('idUpdatePin').onclick = () => {
+           let value = document.getElementById('idUpdatePin').value
+           let id = Number(value.substring(0,1));
+           let targets = allPins.filter(pin => pin.pinId === id);
+           let target = targets[0];
+
+           document.getElementById('latitudeUpdatePin').value = target.latitude;
+           document.getElementById('longitudeUpdatePin').value = target.longitude;
+           document.getElementById('descriptionUpdatePin').value = target.description;
+           document.getElementById('titleUpdatePin').value = target.title;
+           if (target.tours.length > 0) {
+               let toursToMap = [];
+               if (typeof target.tours[0] === 'number') {
+
+                   target.tours.forEach(id => {
+                       let filteredTours = allTours.filter(tour => id === tour.tourId);
+                       if (filteredTours.length > 0) {
+                           filteredTours.forEach(tour => toursToMap.push(tour));
+
+                       }
+                   })
+
+                   let helpMap = toursToMap.map(tour => `<option>${tour.tourId} : ${tour.description}</option>`).join("");
+                   document.getElementById('toursUpdatePin').innerHTML = helpMap;
+               } else {
+                   let mappedTours = target.tours.map(tour => `<option>${tour.tourId} : ${tour.description}</option>`).join("");
+                   document.getElementById('toursUpdatePin').innerHTML = mappedTours;
+               }
+
+
+           } else {
+               document.getElementById('toursUpdatePin').innerHTML = "";
+           }
+
+
+        }
+
+        document.getElementById('resetForm').onclick = (evt) => {
+            evt.preventDefault();
+            evt.stopPropagation();
+            document.getElementById('updatePinForm').reset();
+            document.getElementById('toursUpdatePin').innerHTML = "";
+        }
+    }
+
     function setUpSelectInputs() {
         let tour1 = allTours[0];
         console.log(tour1);
         let selectTours = allTours.map(tour => `<option data-data-optNum="${tour.tourId}">${tour.tourId} : ${tour.description}</option>`).join("");
+
         console.log("selectTours")
         console.log(selectTours);
-        document.getElementById('toursCreatePin').onclick = () => {
-            document.getElementById('toursCreatePin').innerHTML = selectTours;
-        }
+
+        document.getElementById('toursCreatePin').innerHTML =`<option>0: Ingen tilhørende Tour</option>` + selectTours;
+
 
     }
 
@@ -73,10 +125,29 @@ window.addEventListener("load", async () => {
             evt.preventDefault();
             evt.stopPropagation();
             document.getElementById('createPinForm').reset();
-            document.getElementById('toursCreatePin').innerHTML = "";
         }
     }
 
+
+    function animateUpdateForm() {
+        let target = document.getElementById('updateForm1');
+        let animation = anime({
+            targets: target,
+            translateX: {
+                value: 0,
+                duration: 0,
+                delay: 0,
+
+            },
+            opacity : {
+                value: [0, 1],
+                duration: 3500,
+                delay: 200
+            },
+
+            easing: 'easeInOutExpo'
+        })
+    }
     function animateCreateForm() {
         let target = document.getElementById('createForm1');
         console.log(target.offsetWidth)
@@ -680,6 +751,7 @@ window.addEventListener("load", async () => {
     const templateBygninger = await loadTemplate("templates/bygningerTemplate.html")
     const templateSpil = await loadTemplate("templates/spilTemplate.html")
     const templateCreatePin = await loadTemplate("templates/pinForm.html")
+    const templateUpdatePin = await loadTemplate("templates/updatePin.html")
 
     const router = new Navigo("/", {hash : true});
 
@@ -755,6 +827,13 @@ window.addEventListener("load", async () => {
                 animateCreateForm();
 
 
+            },
+            "/updatePin" : (match) => {
+                renderTemplate(templateUpdatePin, "content");
+                scrollTo();
+                test();
+                setUpSelectInputs2();
+                animateUpdateForm();
             }
 
         })
