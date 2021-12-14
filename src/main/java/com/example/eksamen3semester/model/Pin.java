@@ -1,6 +1,8 @@
 package com.example.eksamen3semester.model;
 
 import com.fasterxml.jackson.annotation.*;
+import com.sun.istack.NotNull;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.util.List;
@@ -19,6 +21,7 @@ public class Pin {
 
     @Column(name = "pos_y")
     private int posY;
+
 
     private double latitude;
     private double longitude;

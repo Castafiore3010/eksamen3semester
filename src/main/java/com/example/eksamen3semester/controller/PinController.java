@@ -89,6 +89,10 @@ public class PinController {
         managedPin.setMediaLinks(matchingLinks); // set list for pin
 
 
+        if (pin.getLatitude() == 0.0 || pin.getLongitude() == 0.0) {
+            return ResponseEntity.status(400).build();
+        }
+
         return ResponseEntity.status(201).body(pinRepository.save(managedPin));
 
     }

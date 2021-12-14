@@ -35,13 +35,30 @@ window.addEventListener("load", async () => {
             pin.tours.push(shortTour);
         }
         console.log(pin);
+        let errorMessage = "";
+        if (pin.latitude === 0 && pin.longitude === 0) {
+            errorMessage = " : Angiv værdier for latitude og latitude";
+        }else if (pin.latitude === 0 ^ pin.longitude === 0) {
+            errorMessage = ": Angiv værdi for latitude eller longitude";
+        }
 
         let options = makeOptions("POST", pin);
 
         let response = await fetch("http://localhost:7777/pins", options);
-        let responseData = await response.json();
-        allPins.push(pin);
-        console.log(responseData);
+
+        console.log(response.status);
+        if (response.status === 201) {
+            let responseData = await response.json();
+            allPins.push(pin);
+            console.log(responseData);
+            document.getElementById('addedTool').style.display = 'block'
+            document.getElementById('addedToolText').style.color = '#00e676'
+            document.getElementById('addedToolText').innerText = '✔ Pin tilføjet'
+        } else {
+            document.getElementById('addedTool').style.display = 'block'
+            document.getElementById('addedToolText').style.color = 'crimson'
+            document.getElementById('addedToolText').innerText = '❌ Pin kunne ikke tilføjes' + errorMessage;
+        }
     }
 
     function setUpSelectInputs2() {
@@ -125,6 +142,7 @@ window.addEventListener("load", async () => {
             evt.preventDefault();
             evt.stopPropagation();
             document.getElementById('createPinForm').reset();
+            document.getElementById('addedTool').style.display = 'none';
         }
     }
 
